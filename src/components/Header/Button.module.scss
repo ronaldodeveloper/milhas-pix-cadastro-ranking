@@ -1,0 +1,22 @@
+.header{
+    padding: 12px 16px;
+    background: $color-primary;
+
+    @media (min-width: $mobile) {
+        padding: 12px 24px;
+    }
+
+    &_logo{
+        width: 128px;
+    }
+    &_value{
+        background-color: transparent;
+        padding: 6px 16px;
+        border-radius: 25px;
+        border:  1px solid #CAE6FB;
+        color: #EAEAEA;
+        font-size: 14px;
+        line-height: 24px;
+        font-weight: 500;
+    }
+}
