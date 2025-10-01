@@ -1,0 +1,47 @@
+.flowControls{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    height: 72px;
+    border-top: 1px solid $color-light-gray-200;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: white;
+    padding: 0 16px;
+
+    @media (min-width: $mobile) {
+        border: none;
+    }
+
+    &_info{
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        &_text{
+            text-align: left;
+            color: $color-gray;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 28px;
+            letter-spacing: 0%;
+
+            @media (min-width: $mobile) {
+              display: none;
+            }
+        }
+    }
+
+    &.desktop{
+        position: relative;
+        inset: auto;
+        width: 100%;
+        background-color: transparent;
+        padding: 0;
+        border-top: none;
+    }
+}

@@ -1,0 +1,110 @@
+.card_progress{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 86px;
+    padding: 14px;
+    border-radius: 8px;
+
+    &_circle{
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-color: $color-primary;
+        border:  1px solid $color-primary;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+
+        &_inner{
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: white;
+        }
+
+        &::after{
+            content: '';
+            position: absolute;
+            top: 112%;
+            transform: translateX(-50%);
+            left: 50%;
+            width: 2px;
+            height: 48px;
+            border: 1px solid $color-primary;
+        }
+    }
+
+    &_info{
+        display: flex;
+        flex-direction: column;
+        gap: 1px;   
+
+        &_title{
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 100%;
+            color: $color-gray;
+        }
+        &_subtitle{
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 160%;
+            color: $color-gray-100;
+        }
+    }
+
+    &.disabled {
+        .card_progress_circle {
+            background-color: transparent;
+            border: 1px solid $color-light-gray-200;
+            box-shadow: none;
+
+            &_inner {
+                background-color: $color-light-gray-200;
+            }
+
+            &::after{
+              border-color: $color-light-gray-200;
+            }
+        }
+        .card_progress_info {
+            &_title {
+                color: #CBD5E1;
+            }
+
+            &_subtitle {
+                color: #CBD5E1;
+            }
+        }
+    }
+    &.active {
+        background-color: $color-light-gray-100;
+
+        .card_progress_circle {
+            background-color: transparent;
+            border: 1px solid $color-primary;
+            box-shadow: 0px 0px 0px 3.83px #1E90FF40 !important;
+
+            &::after {
+               border-color: $color-light-gray-200;
+            }
+
+            &_inner {
+                background-color: $color-primary;
+            }
+        }
+        .card_progress_info {
+            &_title {
+                color: $color-primary;
+            }        
+        }
+    }      
+    
+    &:last-of-type{
+        .card_progress_circle::after {
+            display: none;
+         }
+    }
+}
