@@ -1,19 +1,18 @@
 "use client"
 
+import styles from "./home.module.scss";
 import { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
+import {  ProgressFlowData } from "../data/ProgressFlowData";
+import { WindowSize }  from './../hook/WindowSize.js';
 import Header from "./../components/Header";
-import Image from "next/image";
 import Button from './../components/Button';
 import ProgressFlow from './../components/ProgressFlow';
-import {  ProgressFlowData } from "../data/ProgressFlowData";
-import styles from "./home.module.scss";
-import { WindowSize }  from './../hook/WindowSize.js';
-import { getRanking } from "./../services/api.js";
 import RadioButton from "./../components/RadioButton";
 import Input from './../components/Input';
 import Switch from './../components/Switch';
 import Select from "./../components/Select";
-import { useRouter } from 'next/navigation';
+
 
 export default function Home() {
 
@@ -21,17 +20,19 @@ export default function Home() {
   const [step, setStep] = useState(1);
   const windowsize = WindowSize();
 
-  const [data, setData] = useState(null)
+  const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [buttonRadioOption, setbuttonRadioOption] = useState(null);
   const [averageMiles, setAverageMiles] = useState(false);
   const [isPlus, setIsPlus] = useState(true);
 
+  const [mileValue, setMileValue] = useState('10.50');
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`/api?mile_value=${20.00}`, { cache: "no-store" })
+        const res = await fetch(`/api/nova-oferta?mile_value=${mileValue}`, { cache: "no-store" })
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`)
         }
@@ -46,9 +47,10 @@ export default function Home() {
     }
 
     fetchData()
-  }, [])
 
-  console.log(data)
+  }, [mileValue])
+
+  console.log(data);
 
   const HandleClickNext = () => {
     if (step === ProgressFlowData.length) return
@@ -129,9 +131,8 @@ export default function Home() {
                       key={index}
                       id={item.value}
                       value={item.value}
-                      name={item.value}
-                      //  label={item.value.replace("-", " ")} 
-
+                      name={"radio"}
+                      defaultChecked={index ===  0 ? true : false}
                       onChange={HandleButtonRadioOption}
                       isChecked={buttonRadioOption === item.value}
                       image={item.imageUrl}

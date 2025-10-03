@@ -4,7 +4,8 @@ export const dynamic = 'force-static';
 export async function GET(request) {
   
   const { searchParams } = new URL(request.url)
-  const mileValue = searchParams.get('mile_value') || '16.50'
+  const mileValue = searchParams.get('mile_value') || '20.50'
+  console.log(mileValue);
 
   try {
     const res = await fetch(`https://api.milhaspix.com/simulate-ranking?mile_value=${mileValue}`, {

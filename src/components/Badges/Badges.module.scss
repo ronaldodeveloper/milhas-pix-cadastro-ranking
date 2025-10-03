@@ -1,0 +1,48 @@
+
+.badges{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 3px 10px;
+    min-width: 90px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    border-radius: 25px;
+
+     &_icon{
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+    }
+
+
+    // variantes
+    &.azul{
+        background-color: #C1D8EE;
+        color: #002040;
+
+        .badges_icon{
+            background-color: $color-primary;
+        }
+    }
+    &.verde{
+        background-color: #D1FAE5;
+        color: #065F46;
+
+         .badges_icon{
+            background-color: #10B981;
+        }
+    }
+    &.vermelho{
+        background-color: $color-red-100;
+        color: $color-red;
+
+         .badges_icon{
+            background-color: $color-red;
+        }
+    }
+
+   
+}

@@ -133,7 +133,7 @@ export const ProgressFlowData = [
         {
           label: "CPF do Titular", 
           iconName: "icone-user-circle",
-          type: "text",
+          type: "number",
           disabled: false,
         },
          {
@@ -153,7 +153,7 @@ export const ProgressFlowData = [
           iconName: "",
           iconCode: true,
           iconImage: "/image/whatsapp.svg",
-          type: "text",
+          type: "number",
           disabled: false,
         },
       ],

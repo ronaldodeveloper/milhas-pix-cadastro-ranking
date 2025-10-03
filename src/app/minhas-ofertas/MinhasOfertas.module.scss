@@ -1,0 +1,84 @@
+.minhas_ofertas{
+    display: flex;
+    flex-direction: column;
+
+    &_title{
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 28px;
+        color: $color-gray;
+
+        @media (min-width: $mobile) {
+            font-size: 20px;
+        }
+    }
+
+    &_topo{
+        border-bottom: 1px solid $color-light-gray;
+        padding-bottom: 20px;
+
+        @media (min-width: $mobile) {
+            border-bottom: none;
+            padding-bottom: 26px;
+        }
+    }
+}
+
+.filter_container{
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   font-family: "Plus Jakarta Sans", sans-serif;
+   padding-top: 20px;
+   padding-bottom: 20px;
+   
+    @media (min-width: $mobile) {
+            padding: 20px 26px 20px 22px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border: 1px solid $color-light-gray;
+            border-bottom: none;
+    }
+
+   .filter_container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+   }
+
+   .filter_title{
+       font-size: 20px;
+       font-weight: 500;
+       line-height: 28px;
+       color: $color-gray;
+       display: none;
+
+       @media (min-width: $mobile) {
+        display: block;
+       }
+   }
+   .filter_box{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        
+        @media (min-width: $mobile) {
+            max-width: 565px;
+        }
+
+        .busca {
+            width: 68%;
+            @media (min-width: $mobile) {
+                width: 352px;
+            }
+        }
+        .filtros{
+            width: 32%;
+            @media (min-width: $mobile) {
+                 width: 202px;
+            }
+        }
+    }
+}

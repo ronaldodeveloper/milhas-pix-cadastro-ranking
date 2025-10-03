@@ -11,7 +11,7 @@ function Select({ label, id, option }) {
             <label htmlFor={id} className={styles.label}>
                 {label}
                 <select name="selectedFruit" id={id} className={styles.select}>
-                    <option value="Selecione-Produto"></option>
+                    {/* <option value="Selecione-Produto" disabled>Selecione o Produto</option> */}
                     {
                         option && option.map((item, index) => {
                             return (

@@ -2,35 +2,36 @@
 import React, { useState } from 'react';
 import './RadioButtonComponent.css'; // Arquivo CSS opcional
 
-const RadioButtonComponent = () => {
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  const handleChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
+export default function MyForm() {
+  
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    fetch('/some-api', { method: form.method, body: formData });
+    const formJson = Object.fromEntries(formData.entries());
+    console.log(formJson);
+  }
 
   return (
-    <div className="radio-group">
-      <label className={`radio-label ${selectedOption === 'tudoazul' ? 'checked' : ''}`}>
-        <input
-          type="radio"
-          value="tudoazul"
-          checked={selectedOption === 'tudoazul'}
-          onChange={handleChange}
-        />
-        TudoAzul
+    <form method="post" onSubmit={handleSubmit}>
+      <label>
+        Text input: <input name="myInput" defaultValue="Some initial value" />
       </label>
-      <label className={`radio-label ${selectedOption === 'smiles' ? 'checked' : ''}`}>
-        <input
-          type="radio"
-          value="smiles"
-          checked={selectedOption === 'smiles'}
-          onChange={handleChange}
-        />
-        Smiles
+      <hr />
+      <label>
+        Checkbox: <input type="checkbox" name="myCheckbox" defaultChecked={true} />
       </label>
-    </div>
+      <hr />
+      <p>
+        Radio buttons:
+        <label><input type="radio" name="myRadio" value="option1" /> Option 1</label>
+        <label><input type="radio" name="myRadio" value="option2" defaultChecked={true} /> Option 2</label>
+        <label><input type="radio" name="myRadio" value="option3" /> Option 3</label>
+      </p>
+      <hr />
+      <button type="reset">Reset form</button>
+      <button type="submit">Submit form</button>
+    </form>
   );
-};
-
-export default RadioButtonComponent;
+}
