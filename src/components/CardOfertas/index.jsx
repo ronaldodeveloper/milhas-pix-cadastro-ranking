@@ -4,8 +4,6 @@ import Badges from "../Badges";
 import styles from "./CardOfertas.module.scss"
 
 function CardOfertas({  title, status, data, id, login, ofertas, tipo }) {
-    
-    console.log(status);
 
     return (
         <div className={`${styles.card_ofertas}`}>

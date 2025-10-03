@@ -3,13 +3,13 @@
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import styles from "./MinhasOfertas.module.scss";
-import Header from '../../components/Header';
+import Header from './../../components/Header';
 import Button from './../../components/Button';
-import Badges from '../../components/Badges';
-import Select from '../../components/Select';
-import Input from '../../components/Input';
-import { WindowSize } from "../../hook/WindowSize";
-import CardOfertas from '../../components/CardOfertas';
+import Badges from './../../components/Badges';
+import Select from './../../components/Select';
+import Input from './../../components/Input';
+import { WindowSize } from "./../../hook/WindowSize";
+import CardOfertas from './../../components/CardOfertas';
 import { formatDateBR, formatMilhas, StateProgram, FormatStringLogo } from "../../util";
 
 function MinhasOfertas() {
