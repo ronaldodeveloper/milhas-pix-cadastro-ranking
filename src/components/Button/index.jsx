@@ -7,7 +7,7 @@ function Button( { as = 'button', children , onClick , iconeName, iconeDirection
     
     return (
         <Element
-            className={`${styles.button} ${styles[variante]}`}
+            className={`${styles.button} ${styles[variante]} ${!children && styles.buttonIconOnly}`}
             onClick={onClick}
             {...ButtonProps}>
                  { iconeName && iconeDirection === 'left' && <span className={`icones ${iconeName}`}></span> }

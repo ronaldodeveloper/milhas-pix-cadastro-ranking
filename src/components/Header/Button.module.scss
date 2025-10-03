@@ -1,6 +1,11 @@
 .header{
     padding: 12px 0;
     background: $color-primary;
+    margin-bottom: 16px;
+
+    @media (min-width: $mobile) {
+        margin-bottom: 32px;
+    }
 
     &_logo{
         width: 128px;

@@ -1,0 +1,30 @@
+
+.radio_button {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 0 22px;
+  border: 1px solid $color-light-gray-200;
+  border-radius: 56px;
+  font-size: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: black;
+  transition: all 0.3s linear;
+  cursor: pointer;
+
+  .input {
+    display: none; 
+  }
+
+//   &.active {
+//     border: 2px solid $color-primary;
+//   }
+
+  &:has(input:checked) {
+    border: 2px solid $color-primary;
+  }
+}
+

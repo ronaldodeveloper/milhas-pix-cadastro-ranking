@@ -9,14 +9,24 @@ import {  ProgressFlowData } from "../data/ProgressFlowData";
 import styles from "./home.module.scss";
 import { WindowSize }  from './../hook/WindowSize.js';
 import { getRanking } from "./../services/api.js";
+import RadioButton from "./../components/RadioButton";
+import Input from './../components/Input';
+import Switch from './../components/Switch';
+import Select from "./../components/Select";
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const windowsize = WindowSize();
 
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [buttonRadioOption, setbuttonRadioOption] = useState(null);
+  const [averageMiles, setAverageMiles] = useState(false);
+  const [isPlus, setIsPlus] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,37 +48,422 @@ export default function Home() {
     fetchData()
   }, [])
 
+  console.log(data)
+
   const HandleClickNext = () => {
     if (step === ProgressFlowData.length) return
     setStep(step + 1);
+    setIsPlus(true)
   };
-
   const HandleClickBack = () => {
     if (step === 1) return
     setStep(step - 1);
+    setIsPlus(true)
   };
   
-  // console.log(JSON.stringify(data, null, 2));
-  console.log(data);
+  const [formData, setFormData] = useState({
+    step1: { input1: '' },
+    step2: { input1: '' },
+    step3: { input1: '' },
+    step4: { input1: '' }
+  });
+   const handleInputChange = (e, stepData) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [stepData]: {
+        ...prevData[stepData],
+        [name]: value
+      }
+    }));
+  };
+   const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData)
+  };
 
+  const HandleButtonRadioOption = (event) => {
+    setbuttonRadioOption(event.target.value);
+  };
+  const HandleAverageMiles = (event) => {
+    setAverageMiles(event.target.checked);
+  };
+  const HandleClickRedirect = () => {
+    router.push('/minhas-ofertas'); 
+  };
+
+  const renderCurrentStep = (currentStep) => {
+    switch (currentStep) {
+      case 1:
+        return renderStep1();
+      case 2:
+        return renderStep2();
+      case 3:
+        return renderStep3();
+      case 4:
+        return renderStep4();
+      default:
+        return null;
+    }
+  };
+
+  const renderStep1 = () => {
+    const stepKey = `step${step}`;
+    const conteudoAtual = ProgressFlowData[step - 1].step_content;
+    
+    return (
+      <>
+        <div className={styles.form_header}>
+          <h2 className={styles.form_title}><span className="c-azul">{`0${step}. `}</span>{`${conteudoAtual.title}`}</h2>
+        </div>
+        <div className="p-4">
+          <fieldset className={`${styles.fieldset_radio} mb-6`}>
+            {
+              conteudoAtual.checked_title && <h3 className={styles.fieldset_radio_title}>{conteudoAtual.checked_title}</h3>
+            }
+            <div className={`${styles.fieldset_radio_group}`}>
+              {
+                conteudoAtual.checked_items.map((item, index) => {
+                  return (
+                    <RadioButton
+                      key={index}
+                      id={item.value}
+                      value={item.value}
+                      name={item.value}
+                      //  label={item.value.replace("-", " ")} 
+
+                      onChange={HandleButtonRadioOption}
+                      isChecked={buttonRadioOption === item.value}
+                      image={item.imageUrl}
+                      alt={item.value}
+                    />
+                  )
+                })
+              }
+            </div>
+          </fieldset>
+          <fieldset className={styles.fieldset_box}>
+            {
+              conteudoAtual.fields.length > 0 && conteudoAtual.fields.map((item, index) => {
+                return (
+                  item.type === "select" ?
+                    (
+                      <Select
+                        key={index}
+                        id={`${item.label}`}
+                        label={item.label}
+                        option={item.options}
+                      />
+                    )
+                    :
+                    (<Input
+                      key={index}
+                      id={`${stepKey}_input${index + 1}`}
+                      label={item.label}
+                      type={item.type}
+                      name={`input${index + 1}`}
+                      value={formData[stepKey][`.input${index + 1}`]}
+                      onChange={(e) => handleInputChange(e, stepKey)}
+                      required={item.required}
+                      readonly={item.readonly}
+                      disabled={item.disabled}
+                      iconeName={item.iconName}
+                      placeholder={item.placeholder}
+                    />
+                    )
+                )
+              })
+            }
+          </fieldset>
+        </div>
+      </>
+    );
+  };
+
+  const renderStep2 = () => {
+    const stepKey = `step${step}`;
+    const conteudoAtual = ProgressFlowData[step - 1].step_content;
+
+     function formatarTextoComPrecos(texto) {
+        return texto.replace(/(R\$\s*[\d.,]+)/g, '<strong>$1</strong>');
+     }
+    
+    return (
+      <>
+        <div className={styles.form_header}>
+          <h2 className={styles.form_title}><span className="c-azul">{`0${step}. `}</span>{`${conteudoAtual.title}`}</h2>
+          {
+            conteudoAtual.description && windowsize.width >= 768 && (
+              <span className={styles.form_description} 
+                    dangerouslySetInnerHTML={{ __html: formatarTextoComPrecos(conteudoAtual.description)}}>
+              </span>
+            ) 
+          }
+        </div>
+        <div className="p-4">
+          <fieldset className={`${styles.fieldset_radio} mb-6`}>
+            {
+              conteudoAtual.checked_title && <h3 className={styles.fieldset_radio_title}>{conteudoAtual.checked_title}</h3>
+            }
+            <div className={`${styles.fieldset_radio_group}`}>
+              {
+                conteudoAtual.checked_items.map((item, index) => {
+                  return (
+                    <RadioButton
+                      key={index}
+                      id={item.value}
+                      value={item.value}
+                      name={item.value}
+                       label={item.value.replace("-", " ")} 
+                      onChange={HandleButtonRadioOption}
+                      isChecked={buttonRadioOption === item.value}
+                      // image={item.imageUrl}
+                      // alt={item.value}
+                    />
+                  )
+                })
+              }
+            </div>
+          </fieldset>
+          <fieldset className={`${styles.fieldset_box} mb-6`}>            
+            {
+              conteudoAtual.fields.length > 0 && conteudoAtual.fields.map((item, index) => {
+                return (
+                   <Input
+                      key={index}
+                      id={`${stepKey}_input${index + 1}`}
+                      label={item.label}
+                      type={item.type}
+                      name={`input${index + 1}`}
+                      value={formData[stepKey][`.input${index + 1}`]}
+                      onChange={(e) => handleInputChange(e, stepKey)}
+                      required={item.required}
+                      readonly={item.readonly}
+                      disabled={item.disabled}
+                      iconeName={item.iconName}
+                      iconeMoney={item.iconMoney}
+                      placeholder={item.placeholder}
+                      variante={item.variante}
+                    />
+                )
+              })
+            }
+            {
+            conteudoAtual.description && windowsize.width < 768 && (
+              <span className={styles.form_description} 
+                    dangerouslySetInnerHTML={{ __html: formatarTextoComPrecos(conteudoAtual.description)}}>
+              </span>
+            ) 
+          }
+          </fieldset>
+          <fieldset>
+            <Switch message={"Definir média de milhas por passageiro"} onChange={(e) => HandleAverageMiles(e)}/>
+            {
+              averageMiles && (
+                <div className="mt-3">
+                  <Input type="number"/>
+                  <p className="mt-3 mb-0 text-[14px] c-verde">Melhor média para a sua oferta: <strong>27.800</strong></p>
+                </div>
+              )
+            }
+          </fieldset>
+        </div>
+      </>
+    );
+  };
+
+  const renderStep3 = () => {
+    const stepKey = `step${step}`;
+    const conteudoAtual = ProgressFlowData[step - 1].step_content;
+    
+    return (
+      <>
+        <div className={styles.form_header}>
+          <h2 className={styles.form_title}><span className="c-azul">{`0${step}. `}</span>{`${conteudoAtual.title}`}</h2>
+        </div>
+        <div className="p-4">
+          <fieldset className={styles.fieldset_box}>
+            {
+              conteudoAtual.fields.length > 0 && conteudoAtual.fields.map((item, index) => {
+                return (
+                  <Input
+                    key={index}
+                    id={`${stepKey}_input${index + 1}`}
+                    label={item.label}
+                    type={item.type}
+                    name={`input${index + 1}`}
+                    value={formData[stepKey][`.input${index + 1}`]}
+                    onChange={(e) => handleInputChange(e, stepKey)}
+                    required={item.required}
+                    readonly={item.readonly}
+                    disabled={item.disabled}
+                    iconeName={item.iconName}
+                    iconeImage={item.iconImage}
+                    iconeMoney={item.iconMoney}
+                    iconeCode={item.iconCode}
+                    placeholder={item.placeholder}
+                    variante={item.variante}
+                  />
+                )
+              })
+            }
+          </fieldset>
+        </div>
+      </>
+    );
+  };
+  
+  const renderStep4 = () => {
+    const conteudoAtual = ProgressFlowData[step - 1].step_content;
+
+    return (
+      <div className={styles.box_sucesso}>
+          <img src={conteudoAtual.image_sucesso} alt="Ordem de venda criada com sucesso!"/>
+          <h2 className={styles.box_sucesso_title}>{conteudoAtual.title}</h2>
+          <p className={styles.box_sucesso_description}>{conteudoAtual.description}</p>
+
+        <div className="hidden lg:flex">
+          <Button
+            iconeName="icone-arrow-right"
+            iconeDirection="right" onClick={HandleClickRedirect}>
+            {ProgressFlowData[step - 1].button[0].label}
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
+  const HandleClickPlus = () => {
+      setIsPlus(!isPlus)
+  };
+
+  const FormatMoney = (num) => {
+  if (isNaN(num)) throw new Error('Formato de número inválido');
+  return Number(num).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+};
 
   return (
     <>
       <Header />
-      <main className="container">
-        <ProgressFlow  step={step}/>
-        <div className={`${styles.flowControls} ${windowsize.width >= 992 && styles.desktop}`}>
-          <Button iconeName="icone-arrow-left" iconeDirection="left" variante={"outline-white"} onClick={HandleClickBack}>Voltar</Button>
-          <div className={`${styles.flowControls_info}`}>
-            <p className={styles.flowControls_info_text}>
-              <span className="c-azul">{step}</span>
-              {" de "}
-              <span>{ProgressFlowData.length}</span>
-            </p>
-             <Button iconeName="icone-arrow-right" iconeDirection="right" onClick={HandleClickNext}>Prosseguir</Button>
+      <main className="container mb-[120px] mg:mb[0px]">
+        <div className={styles.content}>
+          <div className={styles.content_left}>
+            {
+              windowsize.width >= 992 && <ProgressFlow step={step} />
+            }
           </div>
+
+          <div className={styles.content_center}>
+            <form onSubmit={handleSubmit} className={styles.form}>
+              {renderCurrentStep(step)}
+            </form>
+            <div className={`${styles.flowControls} ${step === 1 && styles.flowControls_right} ${step === 4 && windowsize.width >= 992 && styles.flowControls_hidden} ${windowsize.width >= 992 && styles.desktop}`}>
+              {
+                step > 1 && (
+                  <Button iconeName={ step === 4 && windowsize.width <= 992 ? "" : "icone-arrow-left"} iconeDirection="left" variante={"outline-white"} onClick={HandleClickBack}>
+                    {
+                      windowsize.width >= 992 ? "Voltar" : step === 4 ? "Sair" : ""
+                    }
+                  </Button>
+                )
+              }
+              <div className={`${styles.flowControls_info}`}>
+                {
+                  step === 3 && (
+                    <p className={styles.flowControls_info_termos}>
+                      Ao prosseguir você concorda com os <a href="https://milhaspix.com/termos-e-uso" className="underline">termos de uso</a>
+                    </p>
+                  )
+                }
+                  {
+                  step < 4 && (
+                    <p className={styles.flowControls_info_text}>
+                      <span className="c-azul">{step}</span>
+                      {" de "}
+                      <span>{ProgressFlowData.length}</span>
+                    </p>
+                  )
+                }
+                <Button iconeName="icone-arrow-right" iconeDirection="right" onClick={HandleClickNext}>
+                  {
+                    `${ProgressFlowData[step - 1].button[0].label}`
+                  }
+                </Button>
+              </div>
+            </div>
+          </div>
+          {
+            step <= 3 && (
+              <div className={styles.content_right}>
+                {
+                  ProgressFlowData && ProgressFlowData.map((item) => {
+                    if (item.id === step) {
+                      return (
+                        <div key={item.id} className={`${styles.content_right_box_info} ${isPlus && styles.active}`}>
+                          <h3 className={styles.content_right_box_info_title}>
+                            {
+                              `${item.step_content.info ? item.step_content.info.title : ""}`
+                            }
+
+                            {
+                              windowsize.width < 992 && (
+                                <button type="button" className={"button-plus"} onClick={HandleClickPlus}>
+                                  {
+                                    isPlus ? <span className="icones icone-plus"></span> : <img src="/image/img-minus.svg" alt="" className="imagem-minus" />
+                                  }
+                                </button>
+                              )
+                            }
+                          </h3>
+                          <p className={`${styles.content_right_box_info_description}`}>
+                            {
+                              item.step_content.info ? `${item.step_content.info.description}` : ""
+                            }
+                          </p>
+                        </div>
+                      )
+                    }
+                  })
+                }
+                {
+                  step === 2 && windowsize.width >= 992 && (
+                      <div className={styles.ranking_box}>
+                          <h2 className={styles.ranking_title}>Ranking das ofertas</h2>
+                          <ul className={styles.ranking_list}>
+                            {
+                               data && data.map((item, index) => {
+                                return (
+                                  <li key={index} className={`${styles.ranking_list_item} ${index === 4 && styles.currentPosition}`}>
+                                    <span>
+                                      <span className={styles.position}>{`${ item.position }° `}</span>
+                                      <span className={styles.value}>{`${ FormatMoney(item.mile_value)}`}</span>
+                                    </span>
+                                    {
+                                       index === 4 && <span className={styles.your}>Você</span> 
+                                    }
+                                  </li>
+                                )
+                              })
+                            }
+                          </ul>
+                      </div>
+                  ) 
+                }
+                {
+                   step === 2 && (
+                    <div className={styles.receba_box}>
+                      <h2 className={styles.receba_title}>Receba até:</h2>
+                      <h3 className={styles.receba_value}>
+                        <span>R$</span>
+                        <span>24.325,23</span>
+                      </h3>
+                    </div>
+                   )
+                }
+              </div>
+            )
+          }
         </div>
-        
       </main>
     </>
   )

@@ -16,7 +16,7 @@ function ProgressFlow({step}) {
                           key={item.id}
                           active={item.id === step}
                           title={item.title}
-                          description={item.description}
+                          description={item.subtitle}
                           index={step}
                           disabled={item.id > step}
                       />

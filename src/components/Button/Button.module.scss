@@ -13,6 +13,16 @@
     transition: all 0.3s linear;
     text-decoration: none;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+
+    &.buttonIconOnly{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        padding: 0;
+    }
 
     &:hover{
         background-color:  darken($color-primary, 10%);
@@ -29,5 +39,9 @@
             border-color: $color-primary;
             color: white;
          }
+    }
+    span{
+        font-size: 16px;
+        font-weight: 500;
     }
 }
