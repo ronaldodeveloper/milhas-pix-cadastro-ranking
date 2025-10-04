@@ -1,5 +1,6 @@
 
 
+
 export const ProgressFlowData = [
   {
     id: 1,
@@ -18,23 +19,27 @@ export const ProgressFlowData = [
       checked_items: [
         {
           value: "tudo-azul",
-          imageUrl: "/image/logo-tudoazul.svg",
-          checked: true
+          imageUrl: "/image/img-logo-tudo-azul.png",
+          // checked: true,
+          name: "programa_fidelidade"
         },
         {
           value: "smiles",
-          imageUrl: "/image/logo-smiles.svg",
-          checked: false
+          imageUrl: "/image/img-logo-smiles.png",
+          // checked: false,
+          name: "programa_fidelidade"
         },
         {
           value: "latam-pass",
-          imageUrl: "/image/logo-latam-pass.svg",
-          checked: false
+          imageUrl: "/image/img-logo-latam-pass.png",
+          // checked: false,
+          name: "programa_fidelidade"
         },
         {
           value: "air-portugal",
-          imageUrl: "/image/logo-air-portugal.svg",
-          checked: false
+          imageUrl: "/image/img-logo-air-portugal.png",
+          // checked: false,
+          name: "programa_fidelidade"
         },
       ],
       fields: [
@@ -42,16 +47,18 @@ export const ProgressFlowData = [
           label: "Produto",
           iconName: "",
           type: "select",
-          options: ["liminar"],
+          options: ["liminar", "comum"],
+          name: "produto_selecionado",
         },
         {
           label: "CPF's Disponíveis", 
           iconName: "icone-lock",
-          type: "readonly",
+          type: "number",
           disabled: true,
           readonly: false,
           required: false,
           placeholder: "Ilimitado",
+          name: "cpfs_disponiveis",
         },
       ],
       info:{
@@ -77,19 +84,23 @@ export const ProgressFlowData = [
       checked_items: [
         {
           value: "Imediato",
-          checked: true
+          // checked: true,
+          name: "quero_receber"
         },
         {
           value: "em 2 dias",
-          checked: false
+          // checked: false,
+          name: "quero_receber"
         },
         {
           value: "em 7 dias",
-          checked: false
+          // checked: false,
+          name: "quero_receber"
         },
         {
           value: "Depois do voo",
-          checked: false
+          // checked: false,
+          name: "quero_receber"
         },
       ],
       fields: [
@@ -99,6 +110,7 @@ export const ProgressFlowData = [
           type: "number",
           disabled: false,
           readonly: false,
+          name: "milhas_ofertadas",
         },
          {
           label: "Valor a cada 1.000 milhas", 
@@ -106,8 +118,8 @@ export const ProgressFlowData = [
           iconMoney: true,
           type: "number",
           disabled: false,
-          readonly: true,
-          variante: "red",
+          readonly: false,
+          name: "valor_a_cada_1000_milhas",
         },
       ],
       info:{
@@ -135,18 +147,21 @@ export const ProgressFlowData = [
           iconName: "icone-user-circle",
           type: "number",
           disabled: false,
+          name: "cpf_titular",
         },
          {
           label: "Login de acesso", 
           iconName: "",
           type: "text",
           disabled: false,
+          name: "login_de_acesso",
         },
          {
           label: "Senha de acesso", 
           iconName: "icone-lock",
-          type: "text",
+          type: "password",
           disabled: false,
+          name: "senha_de_acesso",
         },
         {
           label: "Telefone para autenticação", 
@@ -155,6 +170,7 @@ export const ProgressFlowData = [
           iconImage: "/image/whatsapp.svg",
           type: "number",
           disabled: false,
+          name: "telefone_para_autenticacao",
         },
       ],
       info:{

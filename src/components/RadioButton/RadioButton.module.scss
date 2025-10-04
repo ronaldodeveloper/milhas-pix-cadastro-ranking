@@ -6,25 +6,48 @@
   justify-content: center;
   background-color: white;
   padding: 0 22px;
-  border: 1px solid $color-light-gray-200;
+  border: 2px solid $color-light-gray-200;
   border-radius: 56px;
   font-size: 16px;
   font-weight: 500;
   white-space: nowrap;
   color: black;
-  transition: all 0.3s linear;
+  transition: all 0.2s linear;
   cursor: pointer;
 
   .input {
     display: none; 
   }
 
-//   &.active {
-//     border: 2px solid $color-primary;
-//   }
 
   &:has(input:checked) {
-    border: 2px solid $color-primary;
+    border-color: $color-primary;
+
+     .image{
+      opacity: 1;
+     }
   }
+
+    .image {
+      opacity: 0.6;
+      transition: all 0.2s linear;
+
+      &.tudo-azul {
+        width: 61px;
+      }
+  
+      &.smiles {
+        width: 51px;
+      }
+  
+      &.latam-pass {
+        width: 72px;
+      }
+  
+      &.air-portugal {
+        width: 99px;
+      }
+    }
+  
 }
 

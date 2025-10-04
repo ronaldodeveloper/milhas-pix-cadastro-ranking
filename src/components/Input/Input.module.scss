@@ -6,17 +6,29 @@
     gap: 4px;
     width: 100%;
 
-    &:has(.input.red) {
-        .input {
-            &.red {
-                border: 1px solid $color-red;
-            }
+    &:has(.input.money) {
+        .input.money{
+            padding-left: 44px;
         }
 
         .icone {
-            color: $color-red;
+            color: $color-primary;
         }
     }
+    &:has(.input.money.alert){
+
+        .input.money.alert{
+                border: 1px solid $color-red; 
+        }
+        .icone {
+            color: $color-red;
+        }
+         .iconeMoney{
+               color: $color-red;
+               background-color: $color-red-100;
+        }
+    }
+
     &:has(input:disabled) {
         .icone{
             color: $color-gray-200;
@@ -47,6 +59,8 @@
         color: $color-gray;
         transition: all 0.3s linear;
         border: 1px solid $color-light-gray;
+        transition: all 0.3s linear;
+
         cursor: pointer;
 
         &:focus, &:focus-visible, &:active{
@@ -74,6 +88,8 @@
         transform: translateY(-50%);
         color: $color-primary;
         font-size: 20px;
+        transition: all 0.3s linear;
+
     }
     .icone_image{
         position: absolute;
@@ -104,7 +120,6 @@
 
         .flag {
             width: 20px;
-            // height: 15px;
             margin-left: 5px;
         }
     }
@@ -116,17 +131,18 @@
             top: 50%;
             left: 7px;
             transform: translateY(-50%);
-            color: $color-red;
+            color: #2e3d50;
             font-size: 16px;
             font-weight: 500;
             line-height: 1;
-            background-color: $color-red-100;
+            background-color: #f3f3f3;
             padding: 8px;
             border-radius: 50%;
             padding: 6px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.3s linear;
     }
 
 }

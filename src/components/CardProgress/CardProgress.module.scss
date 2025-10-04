@@ -9,6 +9,8 @@
     &_circle{
         width: 32px;
         height: 32px;
+        min-height: 32px;
+        min-width: 32px;
         border-radius: 50%;
         background-color: $color-primary;
         border:  1px solid $color-primary;

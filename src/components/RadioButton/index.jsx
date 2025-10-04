@@ -1,7 +1,8 @@
 "use client";
 import styles from "./RadioButton.module.scss";
 
-function RadioButton({ image, alt, label, value, name, isChecked, onChange, active, defaultChecked, ...props }) {
+function RadioButton({ image, alt, label, value, name, isChecked, onChange, active, defaultChecked, id, ...props }) {
+      
     return (
         <label className={`${styles.radio_button} ${active && styles.active}`} htmlFor={value}>
             <input
@@ -10,12 +11,13 @@ function RadioButton({ image, alt, label, value, name, isChecked, onChange, acti
                 id={value}
                 name={name}
                 value={value}
-                checked={isChecked}
                 onChange={onChange}
-                // defaultChecked={true}
+                // defaultChecked={defaultChecked}
+                checked={isChecked}
+                {...props}
             />
             {
-              label ? <span className={styles.label}>{label}</span> : <img className={styles.image} src={image} alt={alt} {...props} />
+              label ? <span className={styles.label}>{label}</span> : <img className={`${styles.image} ${value &&styles[value]}`} src={image} alt={`Logo ${alt}`} {...props} />
             }
         </label>
     );

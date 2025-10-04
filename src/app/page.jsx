@@ -14,6 +14,7 @@ import Input from './../components/Input';
 import Switch from './../components/Switch';
 import Select from "./../components/Select";
 import Badges from "./../components/Badges";
+import { is } from './../../.next/static/chunks/_next_static_chunks_[root of the server]__f81d50___98d889';
 
 
 export default function Home() {
@@ -22,14 +23,18 @@ export default function Home() {
   const [step, setStep] = useState(1);
   const windowsize = WindowSize();
 
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [buttonRadioOption, setbuttonRadioOption] = useState(null);
   const [averageMiles, setAverageMiles] = useState(false);
   const [isPlus, setIsPlus] = useState(true);
+  const smallMobile = windowsize.width < 768;
+  const mobile = windowsize.width < 992;
 
-  const [mileValue, setMileValue] = useState('10.50');
+  
+  const [mileValue, setMileValue] = useState('16.50');
+  const [isValueOfMiles, setIsValueOfMiles] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,7 +53,7 @@ export default function Home() {
       }
     }
     fetchData()
-  }, [mileValue])
+  }, [])
 
   const HandleClickNext = () => {
     if (step === ProgressFlowData.length) return
@@ -61,37 +66,43 @@ export default function Home() {
     setIsPlus(true)
   };
   
-  const [formData, setFormData] = useState({
-    step1: { input1: '' },
-    step2: { input1: '' },
-    step3: { input1: '' },
-    step4: { input1: '' }
-  });
-   const handleInputChange = (e, stepData) => {
-    const { name, value } = e.target;
+  const [formData, setFormData] = useState({});
+
+  const HandleObterDadosDoCadastro = (e, stepData) => {
+    const { name, value, checked } = e.target;
+    const oneString = 1;
+
     setFormData((prevData) => ({
-      ...prevData,
-      [stepData]: {
-        ...prevData[stepData],
-        [name]: value
-      }
+     ...prevData,
+     [name]: checked,
+     [name]: value
     }));
+
+    if (name === 'valor_a_cada_1000_milhas') {
+        setMileValue(value);
+        setIsValueOfMiles(value > oneString ? true : false);
+    }
   };
-   const handleSubmit = (e) => {
+
+  console.log(isValueOfMiles)
+ 
+  
+  const HandleSubmit = (e) => {
     e.preventDefault();
     console.log(formData)
   };
-
   const HandleButtonRadioOption = (event) => {
     setbuttonRadioOption(event.target.value);
   };
+
+  //  console.log(buttonRadioOption);
+
   const HandleAverageMiles = (event) => {
     setAverageMiles(event.target.checked);
   };
   const HandleClickRedirect = () => {
     router.push('/minhas-ofertas'); 
   };
-
   const RenderCurrentStep = (currentStep) => {
     switch (currentStep) {
       case 1:
@@ -108,9 +119,8 @@ export default function Home() {
   };
 
   const RenderStep1 = () => {
-    const stepKey = `step${step}`;
-    const conteudoAtual = ProgressFlowData[step - 1].step_content;
-    
+    // const stepKey = `step${step}`;
+    const conteudoAtual = ProgressFlowData[step - 1].step_content;  
     return (
       <>
         <div className={styles.form_header}>
@@ -124,17 +134,19 @@ export default function Home() {
             <div className={`${styles.fieldset_radio_group}`}>
               {
                 conteudoAtual.checked_items.map((item, index) => {
+                  // console.log(index)
                   return (
                     <RadioButton
                       key={index}
                       id={item.value}
                       value={item.value}
-                      name={"radio"}
-                      defaultChecked={index ===  0 ? true : false}
-                      onChange={HandleButtonRadioOption}
-                      isChecked={buttonRadioOption === item.value}
+                      name={item.name}
+                      // defaultChecked={item.value === 1}
+                      // isChecked={buttonRadioOption === item.value}
                       image={item.imageUrl}
                       alt={item.value}
+                      // checked={item.checked}
+                      onChange={HandleObterDadosDoCadastro}
                     />
                   )
                 })
@@ -143,7 +155,7 @@ export default function Home() {
           </fieldset>
           <fieldset className={styles.fieldset_box}>
             {
-              conteudoAtual.fields.length > 0 && conteudoAtual.fields.map((item, index) => {
+              conteudoAtual.fields.length > 0 && conteudoAtual.fields.map((item, index) => { 
                 return (
                   item.type === "select" ?
                     (
@@ -152,22 +164,27 @@ export default function Home() {
                         id={`${item.label}`}
                         label={item.label}
                         option={item.options}
+                        name={item.name}
+                        onChange={(e) => HandleObterDadosDoCadastro(e)}
                       />
                     )
                     :
                     (<Input
                       key={index}
-                      id={`${stepKey}_input${index + 1}`}
+                      // id={`${stepKey}_input${index + 1}`}
+                      id={item.id}
                       label={item.label}
                       type={item.type}
-                      name={`input${index + 1}`}
-                      value={formData[stepKey][`.input${index + 1}`]}
-                      onChange={(e) => handleInputChange(e, stepKey)}
+                      // name={`input${index + 1}`}
+                      name={item.name}
+                      // value={formData[stepKey][`.input${index + 1}`]}
+                      value={item.value}
                       required={item.required}
                       readonly={item.readonly}
                       disabled={item.disabled}
                       iconeName={item.iconName}
                       placeholder={item.placeholder}
+                      onChange={(e) => HandleObterDadosDoCadastro(e)}
                     />
                     )
                 )
@@ -192,7 +209,7 @@ export default function Home() {
         <div className={styles.form_header}>
           <h2 className={styles.form_title}><span className="c-azul">{`0${step}. `}</span>{`${conteudoAtual.title}`}</h2>
           {
-            conteudoAtual.description && windowsize.width >= 768 && (
+            conteudoAtual.description && windowsize.width >= 768 && isValueOfMiles && (
               <span className={styles.form_description} 
                     dangerouslySetInnerHTML={{ __html: formatarTextoComPrecos(conteudoAtual.description)}}>
               </span>
@@ -212,10 +229,9 @@ export default function Home() {
                       key={index}
                       id={item.value}
                       value={item.value}
-                      name={item.value}
-                       label={item.value.replace("-", " ")} 
-                      onChange={HandleButtonRadioOption}
-                      isChecked={buttonRadioOption === item.value}
+                      name={item.name}
+                      label={item.value.replace("-", " ")} 
+                      onChange={HandleObterDadosDoCadastro}
                     />
                   )
                 })
@@ -228,12 +244,11 @@ export default function Home() {
                 return (
                    <Input
                       key={index}
-                      id={`${stepKey}_input${index + 1}`}
+                      id={`${item.id}`}
                       label={item.label}
                       type={item.type}
-                      name={`input${index + 1}`}
-                      value={formData[stepKey][`.input${index + 1}`]}
-                      onChange={(e) => handleInputChange(e, stepKey)}
+                      name={item.name}
+                      value={item.value}
                       required={item.required}
                       readonly={item.readonly}
                       disabled={item.disabled}
@@ -241,17 +256,19 @@ export default function Home() {
                       iconeMoney={item.iconMoney}
                       placeholder={item.placeholder}
                       variante={item.variante}
+                      isAlert={isValueOfMiles}
+                      onChange={(e) => HandleObterDadosDoCadastro(e, stepKey)}
                     />
                 )
               })
             }
             {
-            conteudoAtual.description && windowsize.width < 768 && (
-              <span className={styles.form_description} 
-                    dangerouslySetInnerHTML={{ __html: formatarTextoComPrecos(conteudoAtual.description)}}>
-              </span>
-            ) 
-          }
+              conteudoAtual.description && smallMobile && isValueOfMiles && (
+                <span className={styles.form_description}
+                  dangerouslySetInnerHTML={{ __html: formatarTextoComPrecos(conteudoAtual.description) }}>
+                </span>
+              )
+            }
           </fieldset>
           {
             windowsize.width < 992 && (
@@ -269,7 +286,7 @@ export default function Home() {
             {
               averageMiles && (
                 <div className="mt-3">
-                  <Input type="number"/>
+                  <Input type="number" name="definir_media_milhas_passageiro" onChange={HandleObterDadosDoCadastro}/>
                   <p className="mt-3 mb-0 text-[14px] c-verde">Melhor média para a sua oferta: <strong>27.800</strong></p>
                 </div>
               )
@@ -296,12 +313,13 @@ export default function Home() {
                 return (
                   <Input
                     key={index}
-                    id={`${stepKey}_input${index + 1}`}
+                    // id={`${stepKey}_input${index + 1}`}
+                    id={item.id}
                     label={item.label}
                     type={item.type}
-                    name={`input${index + 1}`}
-                    value={formData[stepKey][`.input${index + 1}`]}
-                    onChange={(e) => handleInputChange(e, stepKey)}
+                    // name={`input${index + 1}`}
+                    name={item.name}
+                    // value={formData[stepKey][`.input${index + 1}`]}
                     required={item.required}
                     readonly={item.readonly}
                     disabled={item.disabled}
@@ -311,6 +329,7 @@ export default function Home() {
                     iconeCode={item.iconCode}
                     placeholder={item.placeholder}
                     variante={item.variante}
+                    onChange={(e) => HandleObterDadosDoCadastro(e, stepKey)}
                   />
                 )
               })
@@ -345,10 +364,6 @@ export default function Home() {
       setIsPlus(!isPlus)
   };
 
-//   const FormatMoney = (num) => {
-//   if (isNaN(num)) throw new Error('Formato de número inválido');
-//   return Number(num).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-// };
 
   return (
     <>
@@ -362,7 +377,7 @@ export default function Home() {
           </div>
 
           <div className={styles.content_center}>
-            <form onSubmit={handleSubmit} className={styles.form}>
+            <form onSubmit={HandleSubmit} className={styles.form}>
               {RenderCurrentStep(step)}
             </form>
             <div className={`${styles.flowControls} ${step === 1 && styles.flowControls_right} ${step === 4 && windowsize.width >= 992 && styles.flowControls_hidden} ${windowsize.width >= 992 && styles.desktop}`}>

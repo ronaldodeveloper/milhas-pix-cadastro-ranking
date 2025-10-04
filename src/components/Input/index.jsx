@@ -1,7 +1,7 @@
 "use client";
 import styles from "./Input.module.scss";
 
-function Input({ iconeName, iconeCode, iconeImage, iconeMoney, label, type, disabled = false , id, name, value, onChange, required, placeholder, variante, readonly }) {
+function Input({ iconeName, iconeCode, iconeImage, iconeMoney, label, type, disabled = false , id, name, value, onChange, required, placeholder, variante, readonly, isAlert }) {
     // console.log(variante);
     
     return (
@@ -17,7 +17,7 @@ function Input({ iconeName, iconeCode, iconeImage, iconeMoney, label, type, disa
                     iconeMoney && <span className={`${styles.iconeMoney}`}>R$</span>
                 }
                 <input
-                    className={`${styles.input} ${styles[variante]}`}
+                    className={`${styles.input} ${styles[variante]} ${styles[iconeMoney ? "money": '']} ${styles[isAlert ? "alert":'']}`}
                     type={type}
                     id={id}
                     name={name}

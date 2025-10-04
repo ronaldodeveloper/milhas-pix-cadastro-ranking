@@ -2,15 +2,15 @@
 
 import styles from "./Select.module.scss";  
 
-function Select({ label, id, option }) {
+function Select({ label, id, option, name, onChange, ...props }) {
 
 
     return (
 
         <div className={styles.select_container}>
-            <label htmlFor={id} className={styles.label}>
+            <label htmlFor={id} className={styles.label} onChange={onChange}>
                 {label}
-                <select name="selectedFruit" id={id} className={styles.select}>
+                <select name={name} id={id} className={styles.select} >
                     {/* <option value="Selecione-Produto" disabled>Selecione o Produto</option> */}
                     {
                         option && option.map((item, index) => {
