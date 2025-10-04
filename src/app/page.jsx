@@ -29,39 +29,43 @@ export default function Home() {
   const [isPlus, setIsPlus] = useState(true);
   const smallMobile = windowsize.width < 768;
   const mobile = windowsize.width < 992;
-
-  
-  const [mileValue, setMileValue] = useState('16.50');
+  const [mileValue, setMileValue] = useState('');
   const [isValueOfMiles, setIsValueOfMiles] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(`/api/nova-oferta?mile_value=${mileValue}`, { cache: "no-store" })
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`)
-        }
-        const result = await res.json()
-        setData(result.data)
-      } catch (err) {
-        console.error('Fetch error:', err)
-        setError('Failed to load ranking simulation')
-      } finally {
-        setLoading(false)
+  if (!mileValue) return
+
+  const delayDebounce = setTimeout(async () => {
+    try {
+      const res = await fetch(`/api/nova-oferta?mile_value=${mileValue}`, { cache: "no-store" })
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`)
       }
+      const result = await res.json()
+      setData(result.data)
+    } catch (err) {
+      // console.error('Fetch error:', err)
+      setError('Failed to load ranking simulation')
+    } finally {
+      setLoading(false)
     }
-    fetchData()
-  }, [])
+  }, 400)
+
+  return () => clearTimeout(delayDebounce)
+}, [mileValue])
+
 
   const HandleClickNext = () => {
     if (step === ProgressFlowData.length) return
     setStep(step + 1);
     setIsPlus(true)
+    setIsValueOfMiles(false)
   };
   const HandleClickBack = () => {
     if (step === 1) return
     setStep(step - 1);
     setIsPlus(true)
+    setIsValueOfMiles(false)
   };
   
   const [formData, setFormData] = useState({});
@@ -82,16 +86,10 @@ export default function Home() {
     }
   };
  
-  
   const HandleSubmit = (e) => {
     e.preventDefault();
     console.log(formData)
   };
-  const HandleButtonRadioOption = (event) => {
-    setbuttonRadioOption(event.target.value);
-  };
-
-  //  console.log(buttonRadioOption);
 
   const HandleAverageMiles = (event) => {
     setAverageMiles(event.target.checked);
@@ -99,6 +97,11 @@ export default function Home() {
   const HandleClickRedirect = () => {
     router.push('/minhas-ofertas'); 
   };
+
+  const HandleClickPlus = () => {
+      setIsPlus(!isPlus)
+  };
+
   const RenderCurrentStep = (currentStep) => {
     switch (currentStep) {
       case 1:
@@ -113,7 +116,6 @@ export default function Home() {
         return null;
     }
   };
-
   const RenderStep1 = () => {
     // const stepKey = `step${step}`;
     const conteudoAtual = ProgressFlowData[step - 1].step_content;  
@@ -191,7 +193,6 @@ export default function Home() {
       </>
     );
   };
-
   const RenderStep2 = () => {
     const stepKey = `step${step}`;
     const conteudoAtual = ProgressFlowData[step - 1].step_content;
@@ -266,12 +267,13 @@ export default function Home() {
               )
             }
           </fieldset>
+         
           {
-            windowsize.width < 992 && (
+            windowsize.width < 992 && isValueOfMiles && (
               <fieldset className="mb-6 flex flex-wrap gap-1">
                 {
                   data && data.map((item, index) => (
-                    <Badges key={index} variante={`${index === 4 ? "outline-verde" : "outline-azul"}`} isOutline={true}>{`${item.position} `} {`${FormatMoney(item.mile_value)}`}</Badges>
+                    <Badges key={index} variante={`${ item.description  === "essa será sua posição" ? "outline-verde" : "outline-azul"}`} isOutline={true}>{`${item.position}° `} {`${FormatMoney(item.mile_value)}`}</Badges>
                   ))
                 }
               </fieldset>
@@ -292,7 +294,6 @@ export default function Home() {
       </>
     );
   };
-
   const RenderStep3 = () => {
     const stepKey = `step${step}`;
     const conteudoAtual = ProgressFlowData[step - 1].step_content;
@@ -335,7 +336,6 @@ export default function Home() {
       </>
     );
   };
-  
   const RenderStep4 = () => {
     const conteudoAtual = ProgressFlowData[step - 1].step_content;
 
@@ -354,10 +354,6 @@ export default function Home() {
         </div>
       </div>
     );
-  };
-
-  const HandleClickPlus = () => {
-      setIsPlus(!isPlus)
   };
 
 
@@ -450,7 +446,7 @@ export default function Home() {
                           <h2 className={styles.ranking_title}>Ranking das ofertas</h2>
                           <ul className={styles.ranking_list}>
                             {
-                               data && data.map((item, index) => {
+                               data && isValueOfMiles && data.map((item, index) => {
                                 return (
                                   <li key={index} className={`${styles.ranking_list_item} ${index === 4 && styles.currentPosition}`}>
                                     <span>
