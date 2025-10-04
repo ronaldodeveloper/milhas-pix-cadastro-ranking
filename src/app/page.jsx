@@ -83,8 +83,6 @@ export default function Home() {
         setIsValueOfMiles(value > oneString ? true : false);
     }
   };
-
-  console.log(isValueOfMiles)
  
   
   const HandleSubmit = (e) => {
