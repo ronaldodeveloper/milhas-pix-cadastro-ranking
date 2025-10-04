@@ -38,6 +38,12 @@ const StateProgram = (status) => {
 
 const FormatStringLogo = (str) => {
     return str.replace(" ", "-").toLowerCase();
-}  
+} 
 
-export { formatDateBR, formatMilhas, StateProgram, FormatStringLogo };
+const FormatMoney = (num) => {
+  if (isNaN(num)) throw new Error('Formato de número inválido');
+  return Number(num).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+
+export { formatDateBR, formatMilhas, StateProgram, FormatStringLogo, FormatMoney };

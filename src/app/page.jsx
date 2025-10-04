@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import {  ProgressFlowData } from "../data/ProgressFlowData";
 import { WindowSize }  from './../hook/WindowSize.js';
+import { formatDateBR, formatMilhas, StateProgram, FormatStringLogo , FormatMoney } from "../util";
 import Header from "./../components/Header";
 import Button from './../components/Button';
 import ProgressFlow from './../components/ProgressFlow';
@@ -12,6 +13,7 @@ import RadioButton from "./../components/RadioButton";
 import Input from './../components/Input';
 import Switch from './../components/Switch';
 import Select from "./../components/Select";
+import Badges from "./../components/Badges";
 
 
 export default function Home() {
@@ -45,12 +47,8 @@ export default function Home() {
         setLoading(false)
       }
     }
-
     fetchData()
-
   }, [mileValue])
-
-  console.log(data);
 
   const HandleClickNext = () => {
     if (step === ProgressFlowData.length) return
@@ -94,22 +92,22 @@ export default function Home() {
     router.push('/minhas-ofertas'); 
   };
 
-  const renderCurrentStep = (currentStep) => {
+  const RenderCurrentStep = (currentStep) => {
     switch (currentStep) {
       case 1:
-        return renderStep1();
+        return RenderStep1();
       case 2:
-        return renderStep2();
+        return RenderStep2();
       case 3:
-        return renderStep3();
+        return RenderStep3();
       case 4:
-        return renderStep4();
+        return RenderStep4();
       default:
         return null;
     }
   };
 
-  const renderStep1 = () => {
+  const RenderStep1 = () => {
     const stepKey = `step${step}`;
     const conteudoAtual = ProgressFlowData[step - 1].step_content;
     
@@ -181,14 +179,14 @@ export default function Home() {
     );
   };
 
-  const renderStep2 = () => {
+  const RenderStep2 = () => {
     const stepKey = `step${step}`;
     const conteudoAtual = ProgressFlowData[step - 1].step_content;
 
      function formatarTextoComPrecos(texto) {
         return texto.replace(/(R\$\s*[\d.,]+)/g, '<strong>$1</strong>');
      }
-    
+  
     return (
       <>
         <div className={styles.form_header}>
@@ -218,15 +216,13 @@ export default function Home() {
                        label={item.value.replace("-", " ")} 
                       onChange={HandleButtonRadioOption}
                       isChecked={buttonRadioOption === item.value}
-                      // image={item.imageUrl}
-                      // alt={item.value}
                     />
                   )
                 })
               }
             </div>
           </fieldset>
-          <fieldset className={`${styles.fieldset_box} mb-6`}>            
+          <fieldset className={`${styles.fieldset_box} mb-3 md:mb-6`}>            
             {
               conteudoAtual.fields.length > 0 && conteudoAtual.fields.map((item, index) => {
                 return (
@@ -257,6 +253,17 @@ export default function Home() {
             ) 
           }
           </fieldset>
+          {
+            windowsize.width < 992 && (
+              <fieldset className="mb-6 flex flex-wrap gap-1">
+                {
+                  data && data.map((item, index) => (
+                    <Badges key={index} variante={`${index === 4 ? "outline-verde" : "outline-azul"}`} isOutline={true}>{`${item.position} `} {`${FormatMoney(item.mile_value)}`}</Badges>
+                  ))
+                }
+              </fieldset>
+            )
+          }
           <fieldset>
             <Switch message={"Definir média de milhas por passageiro"} onChange={(e) => HandleAverageMiles(e)}/>
             {
@@ -273,7 +280,7 @@ export default function Home() {
     );
   };
 
-  const renderStep3 = () => {
+  const RenderStep3 = () => {
     const stepKey = `step${step}`;
     const conteudoAtual = ProgressFlowData[step - 1].step_content;
     
@@ -314,7 +321,7 @@ export default function Home() {
     );
   };
   
-  const renderStep4 = () => {
+  const RenderStep4 = () => {
     const conteudoAtual = ProgressFlowData[step - 1].step_content;
 
     return (
@@ -338,10 +345,10 @@ export default function Home() {
       setIsPlus(!isPlus)
   };
 
-  const FormatMoney = (num) => {
-  if (isNaN(num)) throw new Error('Formato de número inválido');
-  return Number(num).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-};
+//   const FormatMoney = (num) => {
+//   if (isNaN(num)) throw new Error('Formato de número inválido');
+//   return Number(num).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+// };
 
   return (
     <>
@@ -356,7 +363,7 @@ export default function Home() {
 
           <div className={styles.content_center}>
             <form onSubmit={handleSubmit} className={styles.form}>
-              {renderCurrentStep(step)}
+              {RenderCurrentStep(step)}
             </form>
             <div className={`${styles.flowControls} ${step === 1 && styles.flowControls_right} ${step === 4 && windowsize.width >= 992 && styles.flowControls_hidden} ${windowsize.width >= 992 && styles.desktop}`}>
               {
@@ -455,8 +462,8 @@ export default function Home() {
                     <div className={styles.receba_box}>
                       <h2 className={styles.receba_title}>Receba até:</h2>
                       <h3 className={styles.receba_value}>
-                        <span>R$</span>
-                        <span>24.325,23</span>
+                        <span>{windowsize.width < 992 ? "Receba até:" : "R$ "}</span>
+                        <span>{ windowsize.width >= 992 ? `${'24.325,23'}` : `R$ ${'24.325,23'}`}</span>
                       </h3>
                     </div>
                    )

@@ -6,7 +6,9 @@ function Input({ iconeName, iconeCode, iconeImage, iconeMoney, label, type, disa
     
     return (
         <div className={`${styles.input_container}`}>
-            <label htmlFor={id} className={styles.label}>{label}</label>
+            {
+                label && <label htmlFor={id} className={styles.label}>{label}</label>
+            }
             <div className={styles.input_wrapper}>
                 {
                     iconeCode &&  <span className={`${styles.country_code}`}>+55 <img src="/image/brasil-flag.svg" alt="Brazil flag" className={`${styles.flag}`} /></span>

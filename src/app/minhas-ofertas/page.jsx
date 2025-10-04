@@ -171,8 +171,8 @@ function MinhasOfertas() {
                         <CardOfertas
                             key={index}
                             title={item.loyaltyProgram}
-                            status={StateProgram(item.offerStatus)}
-                            data={formatDateBR(item.createdAt)}
+                            status={item.offerStatus}
+                            data={item.createdAt}
                             id={item.offerId}
                             login={item.accountLogin}
                             ofertas={item.availableQuantity}
@@ -195,7 +195,7 @@ function MinhasOfertas() {
                             key={index}
                             title={item.loyaltyProgram}
                             status={item.offerStatus}
-                            data={formatDateBR(item.createdAt)}
+                            data={item.createdAt}
                             id={item.offerId}
                             login={item.accountLogin}
                             ofertas={item.availableQuantity}
@@ -212,7 +212,7 @@ function MinhasOfertas() {
     return (
         <>
            <Header />
-           <main className={`${styles.minhas_ofertas}`}>
+           <main className={`${styles.minhas_ofertas} pb-[80px] md:pb-[0px]`}>
                 <div className={`${styles.minhas_ofertas_topo}`}>
                     <div className="container flex items-center justify-between">
                         <h1 className={styles.minhas_ofertas_title}>Minhas Ofertas</h1>

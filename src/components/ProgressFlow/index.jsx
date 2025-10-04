@@ -14,7 +14,7 @@ function ProgressFlow({step}) {
                   return  (
                       <CardProgress
                           key={item.id}
-                          active={item.id === step}
+                          active={step === 4 ? false : item.id === step }
                           title={item.title}
                           description={item.subtitle}
                           index={step}

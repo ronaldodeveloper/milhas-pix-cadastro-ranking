@@ -2,10 +2,10 @@
 
 import styles from "./Badges.module.scss";
 
-function Badges ({children, variante}) {
+function Badges ({children, variante, isOutline}) {
     return (
         <span className={`${styles.badges} ${styles[variante]}`}>
-            <span className={styles.badges_icon}></span>
+            {!isOutline && <span className={styles.badges_icon}></span>}
             {children}
         </span>
     )

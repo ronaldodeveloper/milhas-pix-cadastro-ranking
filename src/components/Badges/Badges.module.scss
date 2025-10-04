@@ -43,6 +43,24 @@
             background-color: $color-red;
         }
     }
+     &.outline-azul{
+        min-width: 79px;
+        padding: 6px 9px;
+        line-height: 1;
+        background-color: transparent;
+        color: $color-primary;
+        border: 1px solid #E2E2E2;
+        font-size: 12px;
+    }
+    &.outline-verde{
+        min-width: 79px;
+        padding: 6px 9px;
+        line-height: 1;
+        background-color: #12A19A1A;
+        color: #12A19A;
+        border: 1px solid #12A19A;
+        font-size: 12px;
+    }
 
    
 }
