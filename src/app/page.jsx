@@ -14,8 +14,6 @@ import Input from './../components/Input';
 import Switch from './../components/Switch';
 import Select from "./../components/Select";
 import Badges from "./../components/Badges";
-import { is } from './../../.next/static/chunks/_next_static_chunks_[root of the server]__f81d50___98d889';
-
 
 export default function Home() {
 
