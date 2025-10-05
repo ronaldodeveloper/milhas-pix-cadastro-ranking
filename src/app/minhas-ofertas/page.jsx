@@ -243,7 +243,7 @@ function MinhasOfertas() {
                     {
                         windowsize.width >= 992 ? (
                             <div className={"overflow-x-auto table-container"}>
-                     <div className="table w-full tatle-offers">
+                     <div className="table w-full table-offers">
                         <div className="table-header-group">
                             <div className="table-row">
                                 <div className="table-cell">Programa</div>

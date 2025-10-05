@@ -115,9 +115,7 @@ body {
   }
 }
 
-
-
-.table.tatle-offers{
+.table.table-offers{
     font-family: "Plus Jakarta Sans", sans-serif;
     color: #121212;
     padding-bottom: 12px;
@@ -140,9 +138,10 @@ body {
            font-size: 12px;
            font-weight: 500;
            line-height: 100%;
+           vertical-align: middle;
 
            &:first-child{
-            text-align: left;
+             text-align: left;
            }
         }
      }
@@ -197,4 +196,47 @@ body {
     border: 1px solid #D9D9D9;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
+}
+
+.warning-green{
+    font-size: 14px;
+    text-align: center;
+
+     @media (min-width: 1280px) {
+          background-color: rgba(8, 142, 135, 0.1);
+          border-radius: 25px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          white-space: nowrap;
+     }
+}
+.programa-fidelidade-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    height: 44px;
+    border: 1px solid #D9D9D9;
+    border-radius: 25px;
+    padding: 0 16px;
+
+    &_title{
+      color: $color-gray;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    &_logo{
+      width: 43px;
+    } 
+    .icones{
+      font-size: 20px;
+      font-weight: 500;
+      color: $color-primary;
+    }
 }

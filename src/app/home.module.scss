@@ -177,6 +177,7 @@
 
         @media (min-width: $mobile) {
             flex: 1;
+            min-width: 575px;
         }
     }
 
@@ -367,7 +368,7 @@
     }
 
     .receba_value{
-        font-size: 20px;
+        font-size: 16px;
         font-weight: 500;
         line-height: 28px;
         color: $color-green;
@@ -377,6 +378,11 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+
+        @media (min-width: $mobile) {
+            font-size: 20px;
+
+        }
     }
 }
 

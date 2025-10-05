@@ -1,10 +1,10 @@
 "use client";
 import styles from "./RadioButton.module.scss";
 
-function RadioButton({ image, alt, label, value, name, isChecked, onChange, active, defaultChecked, id, ...props }) {
+function RadioButton({ image, alt, label, value, name, isChecked, onChange, active, defaultChecked, id, variante, ...props }) {
       
     return (
-        <label className={`${styles.radio_button} ${active && styles.active}`} htmlFor={value}>
+        <label className={`${styles.radio_button} ${active ? styles.active : ''} ${variante ? styles[variante]: ''}`} htmlFor={value}>
             <input
                 className={styles.input}
                 type="radio"

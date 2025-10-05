@@ -1,22 +1,26 @@
 
 .badges{
+    height: 18px;
+    min-width: 90px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 3px 10px;
-    min-width: 90px;
+    padding: 0 10px;
     font-size: 14px;
     font-weight: 500;
     line-height: 20px;
     border-radius: 25px;
+
+    @media (min-width: $mobile) {
+       height: 24px;
+    }
 
      &_icon{
         width: 8px;
         height: 8px;
         border-radius: 50%;
     }
-
 
     // variantes
     &.azul{
@@ -60,7 +64,5 @@
         color: #12A19A;
         border: 1px solid #12A19A;
         font-size: 12px;
-    }
-
-   
+    }   
 }

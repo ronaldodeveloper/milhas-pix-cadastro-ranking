@@ -66,6 +66,9 @@ export default function Home() {
     setStep(step - 1);
     setIsPlus(true)
     setIsValueOfMiles(false)
+    if (step === 4 && windowsize.width < 768) {
+      setStep(1);
+    }
   };
   
   const [formData, setFormData] = useState({});
@@ -117,39 +120,52 @@ export default function Home() {
     }
   };
   const RenderStep1 = () => {
-    // const stepKey = `step${step}`;
     const conteudoAtual = ProgressFlowData[step - 1].step_content;  
+
     return (
       <>
         <div className={styles.form_header}>
           <h2 className={styles.form_title}><span className="c-azul">{`0${step}. `}</span>{`${conteudoAtual.title}`}</h2>
         </div>
         <div className="p-4">
-          <fieldset className={`${styles.fieldset_radio} mb-6`}>
+          <fieldset className={`${styles.fieldset_radio} mb-3 lg:mb-6`}>
             {
               conteudoAtual.checked_title && <h3 className={styles.fieldset_radio_title}>{conteudoAtual.checked_title}</h3>
             }
+           
+            
             <div className={`${styles.fieldset_radio_group}`}>
               {
-                conteudoAtual.checked_items.map((item, index) => {
-                  // console.log(index)
-                  return (
-                    <RadioButton
-                      key={index}
-                      id={item.value}
-                      value={item.value}
-                      name={item.name}
-                      // defaultChecked={item.value === 1}
-                      // isChecked={buttonRadioOption === item.value}
-                      image={item.imageUrl}
-                      alt={item.value}
-                      // checked={item.checked}
-                      onChange={HandleObterDadosDoCadastro}
-                    />
-                  )
-                })
+                windowsize.width > 768 && (
+                  conteudoAtual.checked_items.map((item, index) => {
+                    return (
+                      <RadioButton
+                        key={index}
+                        id={item.value}
+                        value={item.value}
+                        name={item.name}
+                        image={item.imageUrl}
+                        alt={item.value}
+                        onChange={HandleObterDadosDoCadastro}
+                      />
+                    )
+                  })
+                )
               }
             </div>
+          <fieldset>
+            {
+               windowsize.width <= 768 && (
+                  <div className="programa-fidelidade-item">
+                    <p className="programa-fidelidade-item_title">
+                      <span className={`icones icone-arrows-counter-clockwise`}></span>
+                      <span>Tudo Azul</span>
+                    </p>
+                    <img src="./image/img-logo-tudo-azul.png" alt="Logo Tudo Azul" className="programa-fidelidade-item_logo" />
+                  </div>
+               )
+            }
+          </fieldset>
           </fieldset>
           <fieldset className={styles.fieldset_box}>
             {
@@ -283,9 +299,11 @@ export default function Home() {
             <Switch message={"Definir média de milhas por passageiro"} onChange={(e) => HandleAverageMiles(e)}/>
             {
               averageMiles && (
-                <div className="mt-3">
-                  <Input type="number" name="definir_media_milhas_passageiro" onChange={HandleObterDadosDoCadastro}/>
-                  <p className="mt-3 mb-0 text-[14px] c-verde">Melhor média para a sua oferta: <strong>27.800</strong></p>
+                <div className="mt-3 flex flex-col xl:flex-row gap-3">
+                  <div className="w-full xl:w-1/2">
+                    <Input type="number" name="definir_media_milhas_passageiro" onChange={HandleObterDadosDoCadastro} placeholder={"10.000"}/>
+                  </div>
+                  <p className="text-[14px] c-verde w-full xl:w-1/2 warning-green">Melhor média para a sua oferta:&nbsp;<strong>27.800</strong></p>
                 </div>
               )
             }
@@ -356,6 +374,7 @@ export default function Home() {
     );
   };
 
+  // console.log(formData);
 
   return (
     <>
@@ -399,7 +418,7 @@ export default function Home() {
                     </p>
                   )
                 }
-                <Button iconeName="icone-arrow-right" iconeDirection="right" onClick={HandleClickNext}>
+                <Button iconeName="icone-arrow-right" iconeDirection="right" onClick={windowsize.width <= 992 && step === 4 ? HandleClickRedirect : HandleClickNext}>
                   {
                     `${ProgressFlowData[step - 1].button[0].label}`
                   }
@@ -448,13 +467,13 @@ export default function Home() {
                             {
                                data && isValueOfMiles && data.map((item, index) => {
                                 return (
-                                  <li key={index} className={`${styles.ranking_list_item} ${index === 4 && styles.currentPosition}`}>
+                                  <li key={index} className={`${styles.ranking_list_item} ${item.description  === "essa será sua posição" && styles.currentPosition}`}>
                                     <span>
                                       <span className={styles.position}>{`${ item.position }° `}</span>
                                       <span className={styles.value}>{`${ FormatMoney(item.mile_value)}`}</span>
                                     </span>
                                     {
-                                       index === 4 && <span className={styles.your}>Você</span> 
+                                       item.description  === "essa será sua posição" && <span className={styles.your}>Você</span> 
                                     }
                                   </li>
                                 )
@@ -465,7 +484,7 @@ export default function Home() {
                   ) 
                 }
                 {
-                   step === 2 && (
+                   step >= 2 && step <= 3   &&  (
                     <div className={styles.receba_box}>
                       <h2 className={styles.receba_title}>Receba até:</h2>
                       <h3 className={styles.receba_value}>

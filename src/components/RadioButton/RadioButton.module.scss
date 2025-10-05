@@ -5,7 +5,6 @@
   align-items: center;
   justify-content: center;
   background-color: white;
-  padding: 0 22px;
   border: 2px solid $color-light-gray-200;
   border-radius: 56px;
   font-size: 16px;
@@ -15,10 +14,15 @@
   transition: all 0.2s linear;
   cursor: pointer;
 
+  &:hover {
+    .image{
+      opacity: 1;
+    }
+  }
+
   .input {
     display: none; 
   }
-
 
   &:has(input:checked) {
     border-color: $color-primary;
@@ -28,26 +32,25 @@
      }
   }
 
-    .image {
-      opacity: 0.6;
-      transition: all 0.2s linear;
+  .image {
+    opacity: 0.5;
+    transition: all 0.2s linear;
 
-      &.tudo-azul {
-        width: 61px;
-      }
-  
-      &.smiles {
-        width: 51px;
-      }
-  
-      &.latam-pass {
-        width: 72px;
-      }
-  
-      &.air-portugal {
-        width: 99px;
-      }
+    &.tudo-azul {
+      width: 61px;
     }
-  
+
+    &.smiles {
+      width: 51px;
+    }
+
+    &.latam-pass {
+      width: 72px;
+    }
+
+    &.air-portugal {
+      width: 99px;
+    }
+  }
 }
 
