@@ -1,7 +1,7 @@
 "use client"
 
 import styles from "./home.module.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from 'next/navigation';
 import {  ProgressFlowData } from "../data/ProgressFlowData";
 import { WindowSize }  from './../hook/WindowSize.js';
@@ -49,11 +49,10 @@ export default function Home() {
     } finally {
       setLoading(false)
     }
-  }, 400)
+  }, 200)
 
   return () => clearTimeout(delayDebounce)
 }, [mileValue])
-
 
   const HandleClickNext = () => {
     if (step === ProgressFlowData.length) return
@@ -73,9 +72,10 @@ export default function Home() {
   
   const [formData, setFormData] = useState({});
 
-  const HandleObterDadosDoCadastro = (e, stepData) => {
+  const HandleObterDadosDoCadastro = (e) => {
     const { name, value, checked } = e.target;
     const oneString = 1;
+    console.log(name)
 
     setFormData((prevData) => ({
      ...prevData,
@@ -88,6 +88,8 @@ export default function Home() {
         setIsValueOfMiles(value > oneString ? true : false);
     }
   };
+
+  console.log(formData)
  
   const HandleSubmit = (e) => {
     e.preventDefault();
@@ -132,8 +134,6 @@ export default function Home() {
             {
               conteudoAtual.checked_title && <h3 className={styles.fieldset_radio_title}>{conteudoAtual.checked_title}</h3>
             }
-           
-            
             <div className={`${styles.fieldset_radio_group}`}>
               {
                 windowsize.width > 768 && (
@@ -183,23 +183,21 @@ export default function Home() {
                       />
                     )
                     :
-                    (<Input
-                      key={index}
-                      // id={`${stepKey}_input${index + 1}`}
-                      id={item.id}
-                      label={item.label}
-                      type={item.type}
-                      // name={`input${index + 1}`}
-                      name={item.name}
-                      // value={formData[stepKey][`.input${index + 1}`]}
-                      value={item.value}
-                      required={item.required}
-                      readonly={item.readonly}
-                      disabled={item.disabled}
-                      iconeName={item.iconName}
-                      placeholder={item.placeholder}
-                      onChange={(e) => HandleObterDadosDoCadastro(e)}
-                    />
+                    (
+                      <Input
+                        key={index}
+                        id={item.id}
+                        label={item.label}
+                        type={item.type}
+                        name={item.name}
+                        value={item.value}
+                        required={item.required}
+                        readonly={item.readonly}
+                        disabled={item.disabled}
+                        iconeName={item.iconName}
+                        placeholder={item.placeholder}
+                        onChange={(e) => HandleObterDadosDoCadastro(e)}
+                      />
                     )
                 )
               })
@@ -210,7 +208,6 @@ export default function Home() {
     );
   };
   const RenderStep2 = () => {
-    const stepKey = `step${step}`;
     const conteudoAtual = ProgressFlowData[step - 1].step_content;
 
      function formatarTextoComPrecos(texto) {
@@ -270,7 +267,7 @@ export default function Home() {
                       placeholder={item.placeholder}
                       variante={item.variante}
                       isAlert={isValueOfMiles}
-                      onChange={(e) => HandleObterDadosDoCadastro(e, stepKey)}
+                      onChange={(e) => HandleObterDadosDoCadastro(e)}
                     />
                 )
               })
@@ -313,7 +310,6 @@ export default function Home() {
     );
   };
   const RenderStep3 = () => {
-    const stepKey = `step${step}`;
     const conteudoAtual = ProgressFlowData[step - 1].step_content;
     
     return (
@@ -328,13 +324,10 @@ export default function Home() {
                 return (
                   <Input
                     key={index}
-                    // id={`${stepKey}_input${index + 1}`}
                     id={item.id}
                     label={item.label}
                     type={item.type}
-                    // name={`input${index + 1}`}
                     name={item.name}
-                    // value={formData[stepKey][`.input${index + 1}`]}
                     required={item.required}
                     readonly={item.readonly}
                     disabled={item.disabled}
@@ -344,8 +337,8 @@ export default function Home() {
                     iconeCode={item.iconCode}
                     placeholder={item.placeholder}
                     variante={item.variante}
-                    onChange={(e) => HandleObterDadosDoCadastro(e, stepKey)}
-                  />
+                    onChange={(e) => HandleObterDadosDoCadastro(e)}
+                    />
                 )
               })
             }

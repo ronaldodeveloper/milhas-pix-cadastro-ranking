@@ -1,7 +1,10 @@
 "use client";
+
+
+import { forwardRef } from 'react';
 import styles from "./Input.module.scss";
 
-function Input({ iconeName, iconeCode, iconeImage, iconeMoney, label, type, disabled = false , id, name, value, onChange, required, placeholder, variante, readonly, isAlert }) {
+function Input({ iconeName, iconeCode, iconeImage, iconeMoney, label, type, disabled = false , id, name, value, onChange, required, placeholder, variante, readonly, isAlert, ref }) {
     // console.log(variante);
     
     return (
@@ -27,6 +30,7 @@ function Input({ iconeName, iconeCode, iconeImage, iconeMoney, label, type, disa
                     readOnly={readonly}
                     placeholder={placeholder}
                     onChange={onChange}
+                    ref={ref}
                 />
                 {
                     iconeName && <span className={`icones ${iconeName} ${styles.icone}`}></span>

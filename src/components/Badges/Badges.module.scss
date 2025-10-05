@@ -1,6 +1,6 @@
 
 .badges{
-    height: 18px;
+    height: 20px;
     min-width: 90px;
     display: inline-flex;
     align-items: center;
@@ -9,7 +9,7 @@
     padding: 0 10px;
     font-size: 14px;
     font-weight: 500;
-    line-height: 20px;
+    line-height: 0;
     border-radius: 25px;
 
     @media (min-width: $mobile) {
@@ -50,7 +50,6 @@
      &.outline-azul{
         min-width: 79px;
         padding: 6px 9px;
-        line-height: 1;
         background-color: transparent;
         color: $color-primary;
         border: 1px solid #E2E2E2;
@@ -59,7 +58,6 @@
     &.outline-verde{
         min-width: 79px;
         padding: 6px 9px;
-        line-height: 1;
         background-color: #12A19A1A;
         color: #12A19A;
         border: 1px solid #12A19A;

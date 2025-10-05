@@ -20,25 +20,21 @@ export const ProgressFlowData = [
         {
           value: "tudo-azul",
           imageUrl: "/image/img-logo-tudo-azul.png",
-          // checked: true,
           name: "programa_fidelidade"
         },
         {
           value: "smiles",
           imageUrl: "/image/img-logo-smiles.png",
-          // checked: false,
           name: "programa_fidelidade"
         },
         {
           value: "latam-pass",
           imageUrl: "/image/img-logo-latam-pass.png",
-          // checked: false,
           name: "programa_fidelidade"
         },
         {
           value: "air-portugal",
           imageUrl: "/image/img-logo-air-portugal.png",
-          // checked: false,
           name: "programa_fidelidade"
         },
       ],
@@ -47,7 +43,7 @@ export const ProgressFlowData = [
           label: "Produto",
           iconName: "",
           type: "select",
-          options: ["liminar", "comum"],
+          options: ["liminar", "Resgatar passagem"],
           name: "produto_selecionado",
         },
         {
@@ -56,7 +52,7 @@ export const ProgressFlowData = [
           type: "number",
           disabled: true,
           readonly: false,
-          required: false,
+          required: true,
           placeholder: "Ilimitado",
           name: "cpfs_disponiveis",
         },
@@ -84,22 +80,18 @@ export const ProgressFlowData = [
       checked_items: [
         {
           value: "Imediato",
-          // checked: true,
           name: "quero_receber"
         },
         {
           value: "em 2 dias",
-          // checked: false,
           name: "quero_receber"
         },
         {
           value: "em 7 dias",
-          // checked: false,
           name: "quero_receber"
         },
         {
           value: "Depois do voo",
-          // checked: false,
           name: "quero_receber"
         },
       ],
@@ -110,6 +102,7 @@ export const ProgressFlowData = [
           type: "number",
           disabled: false,
           readonly: false,
+          required: true,
           name: "milhas_ofertadas",
         },
          {
@@ -119,6 +112,7 @@ export const ProgressFlowData = [
           type: "number",
           disabled: false,
           readonly: false,
+          required: true,
           name: "valor_a_cada_1000_milhas",
         },
       ],
@@ -148,6 +142,7 @@ export const ProgressFlowData = [
           type: "number",
           disabled: false,
           name: "cpf_titular",
+          required: true
         },
          {
           label: "Login de acesso", 
@@ -155,6 +150,7 @@ export const ProgressFlowData = [
           type: "text",
           disabled: false,
           name: "login_de_acesso",
+          required: true
         },
          {
           label: "Senha de acesso", 
@@ -162,6 +158,7 @@ export const ProgressFlowData = [
           type: "password",
           disabled: false,
           name: "senha_de_acesso",
+          required: true
         },
         {
           label: "Telefone para autenticação", 
@@ -171,6 +168,7 @@ export const ProgressFlowData = [
           type: "number",
           disabled: false,
           name: "telefone_para_autenticacao",
+          required: true
         },
       ],
       info:{
