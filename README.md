@@ -31,6 +31,7 @@ A segunda página mostra uma listagem das ofertas cadastradas com campo de busca
 
 
 ## Arquitetura do projeto
+```
 src/
 ├── app/
 │ ├── api/
@@ -51,7 +52,8 @@ src/
 ├── data/                           # Dados mockados estáticos
 ├── hook/                           # Hooks personalizados
 ├── styles/                         # Arquivos SCSS e variáveis globais
-└── util/                           # Funções utilitárias
+└── util/ 
+```                          
 
 
 ##  Link da aplicação
