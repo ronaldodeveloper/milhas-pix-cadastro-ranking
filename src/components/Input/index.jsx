@@ -5,7 +5,7 @@ import { forwardRef } from 'react';
 import styles from "./Input.module.scss";
 import jSuites from 'jsuites';
 
-function Input({ iconeName, iconeCode, iconeImage, iconeMoney, label, type, disabled = false , id, name, value, onChange, required, placeholder, variante, readonly, isAlert, mask }) {
+function Input({ iconeName, iconeCode, iconeImage, iconeMoney, label, type, disabled = false , id, name, value, onChange, required, placeholder, variante, readonly, isAlert, mask, isMessage = true }) {
     // console.log(variante);
     
     return (
@@ -40,6 +40,8 @@ function Input({ iconeName, iconeCode, iconeImage, iconeMoney, label, type, disa
                     iconeImage && <img src={iconeImage} alt="" className={`${styles.icone_image}`}/>
                 }
             </div>
+            <span className={`${styles.message} ${isMessage && styles.error}`}>{isMessage}</span> 
+                
         </div>
     )
 }

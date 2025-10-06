@@ -55,46 +55,6 @@ function MinhasOfertas() {
         router.push('/')
     }
 
-    // function formatDateBR(dateString) {
-    //     const date = new Date(dateString);
-    //     const formatter = new Intl.DateTimeFormat('pt-BR', {
-    //         day: '2-digit',
-    //         month: 'short',
-    //         year: 'numeric'
-    //     });
-
-    //     const parts = formatter.formatToParts(date);
-    //     const day = parts.find(p => p.type === 'day').value;
-    //     const month = parts.find(p => p.type === 'month').value
-    //         .replace('.', '')
-    //         .replace(/^\w/, c => c.toUpperCase());
-    //     const year = parts.find(p => p.type === 'year').value;
-
-    //     return `${day} ${month} ${year}`;
-    // }
-
-    // function formatMilhas(number) {
-    //     const cleanNumber = String(number).replace(/\D/g, '');
-    //     return cleanNumber.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    // }
-
-    // function StateProgram(status){
-    //     switch (status) {
-    //         case "Ativa": 
-    //             return "verde"
-    //         case "Inativo": 
-    //             return "vermelho"
-    //         case "Em Utilizacao": 
-    //             return "azul"
-    //         default:
-    //             break;
-    //     }
-    // }
-
-    // function FormatStringLogo(str){
-    //     return str.replace(" ", "-").toLowerCase();
-    // }  
-
     function RenderTodasOfertas(){
         return (
             <>
@@ -207,7 +167,8 @@ function MinhasOfertas() {
             </>
         )
     }
-
+    
+    const isItens = ofertasEncontradas == null ? [] : ofertasEncontradas.length
 
     return (
         <>
@@ -256,9 +217,16 @@ function MinhasOfertas() {
                         </div>
                             <div className="table-row-group">
                                 {
+                                    isItens === 0 && (
+                                        <div className="table-row">
+                                            <span className="table-cell text-lg message" colSpan="6">Nenhuma oferta encontrada!</span>
+                                        </div>
+                                    )
+                                }
+                                {
                                     loading ? (
                                         <div className="table-row">
-                                            <span className="table-cell" colSpan="6">Carregando lista de ofertas...</span>
+                                            <span className="table-cell message" colSpan="6">Carregando lista de ofertas...</span>
                                         </div>
                                     ) : (
                                         ofertasEncontradas ? ResultadoBuscarPorOfertas() :  RenderTodasOfertas()

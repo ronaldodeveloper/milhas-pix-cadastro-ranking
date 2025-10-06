@@ -14,7 +14,6 @@ import Input from './../components/Input';
 import Switch from './../components/Switch';
 import Select from "./../components/Select";
 import Badges from "./../components/Badges";
-// import jSuites from "jsuites";
 
 export default function Home() {
 
@@ -25,7 +24,6 @@ export default function Home() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [buttonRadioOption, setbuttonRadioOption] = useState(null);
   const [averageMiles, setAverageMiles] = useState(false);
   const [isPlus, setIsPlus] = useState(true);
   const smallMobile = windowsize.width < 768;
@@ -35,29 +33,77 @@ export default function Home() {
   const [ImageSelectedFidelidade, setImageSelectedFidelidade] = useState("tudo-azul");
   const [isBtnLoading, setIsBtnLoading] = useState(false);
 
-  useEffect(() => {
-  if (!mileValue) return
+//   useEffect(() => {
+//   if (!mileValue) return
 
+//   const delayDebounce = setTimeout(async () => {
+//     //Number(mileValue).toFixed(2)
+
+//     try {
+//       const res = await fetch(`/api/nova-oferta?mile_value=${mileValue}`, { cache: "no-store" })
+//       if (!res.ok) {
+//         throw new Error(`HTTP error! status: ${res.status}`)
+//       }
+//       const result = await res.json()
+//       setData(result.data)
+
+//     } catch (err) {
+//       setError('Failed to load ranking simulation')
+//     } finally {
+//       setLoading(false)
+//     }
+//   }, 100)
+
+//   return () => clearTimeout(delayDebounce)
+// }, [mileValue])
+
+useEffect(() => {
+  if (!mileValue || isNaN(mileValue) || Number(mileValue) <= 0) {
+    setData(null);
+    return;
+  }
+  console.log(mileValue);
+  const controller = new AbortController();
   const delayDebounce = setTimeout(async () => {
-    // Number(mileValue.replace(',', '.')).toFixed(2)
+    setLoading(true);
+    setError(null);
 
     try {
-      const res = await fetch(`/api/nova-oferta?mile_value=${Number(mileValue).toFixed(2)}`, { cache: "no-store" })
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`)
-      }
-      const result = await res.json()
-      setData(result.data)
-    } catch (err) {
-      // console.error('Fetch error:', err)
-      setError('Failed to load ranking simulation')
-    } finally {
-      setLoading(false)
-    }
-  }, 200)
+      const res = await fetch(
+        `/api/nova-oferta?mile_value=${encodeURIComponent(mileValue.replace(',', '.'))}`,
+        {
+          cache: "no-store",
+          signal: controller.signal, 
+        }
+      );
 
-  return () => clearTimeout(delayDebounce)
-}, [mileValue])
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const result = await res.json();
+
+      if (!controller.signal.aborted) {
+        setData(result.data || null);
+      }
+    } catch (err) {
+      if (err.name !== 'AbortError') {
+        if (!controller.signal.aborted) {
+          setError('Failed to load ranking simulation');
+        }
+      }
+    } finally {
+      if (!controller.signal.aborted) {
+        setLoading(false);
+      }
+    }
+  }, 500);
+
+  return () => {
+    clearTimeout(delayDebounce);
+    controller.abort();
+  };
+}, [mileValue]);
 
   useEffect(() => {
   }, [step]);
@@ -97,24 +143,23 @@ export default function Home() {
      [name]: value
     }));
 
-   
     if (name === 'valor_a_cada_1000_milhas') {
-        setMileValue(value);
-        setIsValueOfMiles(value > oneString ? true : false);
+      let valorformatado = (value / 100).toFixed(2);
+        setMileValue(valorformatado);
+        setIsValueOfMiles(value > oneString ? true : false); 
+        
+        // let numero = valor ? parseInt(valor, 10) / 100 : 0;
+        // e.target.value = new Intl.NumberFormat("pt-BR", {
+        //     style: "decimal",
+        //     minimumFractionDigits: 2,
+        //     maximumFractionDigits: 2
+        // }).format(numero);
+
     }
     if (name === 'programa_fidelidade') {
         setImageSelectedFidelidade(value);
     }
-
-    // if (name === 'valor_a_cada_1000_milhas') {
-     
-    // }
-
-
-
   };
-
-  console.log(formData)
  
   const HandleSubmit = (e) => {
     e.preventDefault();
@@ -295,7 +340,7 @@ export default function Home() {
                       isAlert={isValueOfMiles}
                       onChange={(e) => HandleObterDadosDoCadastro(e)}
                       mask={item.mask}
-
+                      isMessage={item.message}
                     />
                 )
               })
@@ -398,27 +443,36 @@ export default function Home() {
           <Button
             iconeName="icone-arrow-right"
             iconeDirection="right" onClick={HandleClickRedirect}>
-            {ProgressFlowData[step - 1].button[0].label}
+              {
+                isBtnLoading ? <span className="loader"></span> : `${ProgressFlowData[step - 1].button[0].label}`
+              }
           </Button>
         </div>
       </div>
     );
   };
 
-  // console.log(formData);
+  console.log(
+    {
+      message: 'Dados do formulário',
+      status: 'DESENVOLVIMENTO (não serão mostrados no console em produção)',
+      data : formData
+    }
+  )
+
 
   return (
     <>
       <Header />
       <main className="container mb-[120px] mg:mb[0px]">
-        <div className={styles.content}>
+        <div className={`${styles.content} ${"fade-in"}`}>
           <div className={styles.content_left}>
             {
               windowsize.width >= 992 && <ProgressFlow step={step} />
             }
           </div>
 
-          <div className={styles.content_center}>
+          <div className={`${styles.content_center}`}>
             <form onSubmit={HandleSubmit} className={styles.form}>
               {RenderCurrentStep(step)}
             </form>
@@ -451,7 +505,7 @@ export default function Home() {
                 }
                 <Button iconeName={`${isBtnLoading ? "" : "icone-arrow-right"}`} iconeDirection="right" onClick={windowsize.width <= 992 && step === 4 ? HandleClickRedirect : HandleClickNext}>
                   {
-                    isBtnLoading ? <div className="loader"></div> : `${ProgressFlowData[step - 1].button[0].label}`
+                    isBtnLoading ? <span className="loader"></span> : `${ProgressFlowData[step - 1].button[0].label}`
                   }
                 </Button>
               </div>

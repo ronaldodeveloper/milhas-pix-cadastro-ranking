@@ -145,6 +145,18 @@
             transition: all 0.3s linear;
     }
 
+    .message{
+        font-size: 12px;
+        line-height: 14px;
+        margin-top: 8px;
+        display: none;
+        
+        &.error{
+            color: $color-red;
+            display: inline-block;
+        }
+    }
+
 }
 
 

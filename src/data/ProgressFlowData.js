@@ -106,18 +106,18 @@ export const ProgressFlowData = [
           required: true,
           name: "milhas_ofertadas",
           mask: "#.##0",
+          message: "Insira um valor válido de milhas"
         },
          {
           label: "Valor a cada 1.000 milhas", 
           iconName: "icone-chevron-dual",
           iconMoney: true,
-          type: "number",
+          type: "text",
           disabled: false,
           readonly: false,
           required: true,
           name: "valor_a_cada_1000_milhas",
-          // mask: "#.##0.00",
-          mask: "00.00",
+          // mask: "00,00",
         },
       ],
       info:{
