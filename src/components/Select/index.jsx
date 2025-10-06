@@ -11,7 +11,6 @@ function Select({ label, id, option, name, onChange, ...props }) {
             <label htmlFor={id} className={styles.label} onChange={onChange}>
                 {label}
                 <select name={name} id={id} className={styles.select} >
-                    {/* <option value="Selecione-Produto" disabled>Selecione o Produto</option> */}
                     {
                         option && option.map((item, index) => {
                             return (

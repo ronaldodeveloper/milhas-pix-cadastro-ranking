@@ -45,19 +45,6 @@ const FormatMoney = (num) => {
   return Number(num).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
-const FormatMoneyCurrentInput = (element) => {
-    // let numericValue = element.replace(/\D/g, "");
-
-    // let number = numericValue ? parseInt(numericValue, 10) / 100 : 0;
-
-    // let formatted = new Intl.NumberFormat("pt-BR", {
-    //   minimumFractionDigits: 2,
-    //   maximumFractionDigits: 2
-    // }).format(number);
-
-    // return formatted; 
-}
 
 
-
-export { formatDateBR, formatMilhas, StateProgram, FormatStringLogo, FormatMoney, FormatMoneyCurrentInput };
+export { formatDateBR, formatMilhas, StateProgram, FormatStringLogo, FormatMoney };

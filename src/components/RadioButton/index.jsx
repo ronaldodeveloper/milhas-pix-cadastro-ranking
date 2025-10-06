@@ -12,7 +12,6 @@ function RadioButton({ image, alt, label, value, name, isChecked, onChange, acti
                 name={name}
                 value={value}
                 onChange={onChange}
-                // defaultChecked={defaultChecked}
                 checked={isChecked}
                 {...props}
             />

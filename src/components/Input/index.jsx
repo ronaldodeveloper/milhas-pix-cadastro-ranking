@@ -40,7 +40,7 @@ function Input({ iconeName, iconeCode, iconeImage, iconeMoney, label, type, disa
                     iconeImage && <img src={iconeImage} alt="" className={`${styles.icone_image}`}/>
                 }
             </div>
-            <span className={`${styles.message} ${isMessage && styles.error}`}>{isMessage}</span> 
+            {/* <span className={`${styles.message} ${isMessage && styles.error}`}>{isMessage}</span>  */}
                 
         </div>
     )

@@ -106,7 +106,7 @@ export const ProgressFlowData = [
           required: true,
           name: "milhas_ofertadas",
           mask: "#.##0",
-          message: "Insira um valor válido de milhas"
+          // message: "Insira um valor válido de milhas"
         },
          {
           label: "Valor a cada 1.000 milhas", 

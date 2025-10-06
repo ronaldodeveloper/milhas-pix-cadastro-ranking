@@ -1,7 +1,8 @@
 
+# Teste Técnico - Milhas Pix
+Projeto desenvolvido em Next.js para o teste técnico!
 
-## Visão Geral
-A aplicação consiste em duas páginas 
+#### A aplicação consiste em duas páginas 
 A primeira página tem um formulário para cadastrar novas ofertas e exibir em tempo real o ranking consumindo da API
 A segunda página mostra uma listagem das ofertas cadastradas com campo de busca e filtro.
 

@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import CardProgress from "../CardProgress";
-import styles from "./ProgressFlow.module.scss";
 import { ProgressFlowData } from "../../data/ProgressFlowData";
+import styles from "./ProgressFlow.module.scss";
 
 function ProgressFlow({step}) {
 

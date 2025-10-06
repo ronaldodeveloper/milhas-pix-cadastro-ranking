@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from 'next/navigation';
 import {  ProgressFlowData } from "../data/ProgressFlowData";
 import { WindowSize }  from './../hook/WindowSize.js';
-import { formatDateBR, formatMilhas, StateProgram, FormatStringLogo , FormatMoney , FormatMoneyCurrentInput } from "../util";
+import { formatDateBR, formatMilhas, StateProgram, FormatStringLogo , FormatMoney } from "../util";
 import Header from "./../components/Header";
 import Button from './../components/Button';
 import ProgressFlow from './../components/ProgressFlow';
@@ -33,30 +33,6 @@ export default function Home() {
   const [ImageSelectedFidelidade, setImageSelectedFidelidade] = useState("tudo-azul");
   const [isBtnLoading, setIsBtnLoading] = useState(false);
 
-//   useEffect(() => {
-//   if (!mileValue) return
-
-//   const delayDebounce = setTimeout(async () => {
-//     //Number(mileValue).toFixed(2)
-
-//     try {
-//       const res = await fetch(`/api/nova-oferta?mile_value=${mileValue}`, { cache: "no-store" })
-//       if (!res.ok) {
-//         throw new Error(`HTTP error! status: ${res.status}`)
-//       }
-//       const result = await res.json()
-//       setData(result.data)
-
-//     } catch (err) {
-//       setError('Failed to load ranking simulation')
-//     } finally {
-//       setLoading(false)
-//     }
-//   }, 100)
-
-//   return () => clearTimeout(delayDebounce)
-// }, [mileValue])
-
 useEffect(() => {
   if (!mileValue || isNaN(mileValue) || Number(mileValue) <= 0) {
     setData(null);
@@ -76,7 +52,6 @@ useEffect(() => {
           signal: controller.signal, 
         }
       );
-
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
@@ -147,14 +122,6 @@ useEffect(() => {
       let valorformatado = (value / 100).toFixed(2);
         setMileValue(valorformatado);
         setIsValueOfMiles(value > oneString ? true : false); 
-        
-        // let numero = valor ? parseInt(valor, 10) / 100 : 0;
-        // e.target.value = new Intl.NumberFormat("pt-BR", {
-        //     style: "decimal",
-        //     minimumFractionDigits: 2,
-        //     maximumFractionDigits: 2
-        // }).format(numero);
-
     }
     if (name === 'programa_fidelidade') {
         setImageSelectedFidelidade(value);
