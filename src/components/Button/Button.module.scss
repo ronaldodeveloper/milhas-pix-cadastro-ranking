@@ -16,6 +16,7 @@
     font-size: 14px;
     font-weight: 500;
     line-height: 20px;
+    min-width: 130px;
 
     &.buttonIconOnly{
         width: 40px;
@@ -33,6 +34,7 @@
          background-color: white;
          border: 1px solid $color-light-gray;
          color: $color-gray;
+         min-width: auto;
 
          &:hover{
             background-color:  $color-primary;

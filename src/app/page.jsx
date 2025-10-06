@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from 'next/navigation';
 import {  ProgressFlowData } from "../data/ProgressFlowData";
 import { WindowSize }  from './../hook/WindowSize.js';
-import { formatDateBR, formatMilhas, StateProgram, FormatStringLogo , FormatMoney } from "../util";
+import { formatDateBR, formatMilhas, StateProgram, FormatStringLogo , FormatMoney , FormatMoneyCurrentInput } from "../util";
 import Header from "./../components/Header";
 import Button from './../components/Button';
 import ProgressFlow from './../components/ProgressFlow';
@@ -14,6 +14,7 @@ import Input from './../components/Input';
 import Switch from './../components/Switch';
 import Select from "./../components/Select";
 import Badges from "./../components/Badges";
+// import jSuites from "jsuites";
 
 export default function Home() {
 
@@ -31,13 +32,17 @@ export default function Home() {
   const mobile = windowsize.width < 992;
   const [mileValue, setMileValue] = useState('');
   const [isValueOfMiles, setIsValueOfMiles] = useState(false);
+  const [ImageSelectedFidelidade, setImageSelectedFidelidade] = useState("tudo-azul");
+  const [isBtnLoading, setIsBtnLoading] = useState(false);
 
   useEffect(() => {
   if (!mileValue) return
 
   const delayDebounce = setTimeout(async () => {
+    // Number(mileValue.replace(',', '.')).toFixed(2)
+
     try {
-      const res = await fetch(`/api/nova-oferta?mile_value=${mileValue}`, { cache: "no-store" })
+      const res = await fetch(`/api/nova-oferta?mile_value=${Number(mileValue).toFixed(2)}`, { cache: "no-store" })
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`)
       }
@@ -54,11 +59,21 @@ export default function Home() {
   return () => clearTimeout(delayDebounce)
 }, [mileValue])
 
+  useEffect(() => {
+  }, [step]);
+
   const HandleClickNext = () => {
     if (step === ProgressFlowData.length) return
-    setStep(step + 1);
     setIsPlus(true)
     setIsValueOfMiles(false)
+    setIsBtnLoading(true)
+    
+    setTimeout(() => {
+      setIsBtnLoading(false)
+      setStep(step + 1);
+    }, 700);
+     
+
   };
   const HandleClickBack = () => {
     if (step === 1) return
@@ -70,12 +85,11 @@ export default function Home() {
     }
   };
   
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState();
 
   const HandleObterDadosDoCadastro = (e) => {
     const { name, value, checked } = e.target;
     const oneString = 1;
-    console.log(name)
 
     setFormData((prevData) => ({
      ...prevData,
@@ -83,10 +97,21 @@ export default function Home() {
      [name]: value
     }));
 
+   
     if (name === 'valor_a_cada_1000_milhas') {
         setMileValue(value);
         setIsValueOfMiles(value > oneString ? true : false);
     }
+    if (name === 'programa_fidelidade') {
+        setImageSelectedFidelidade(value);
+    }
+
+    // if (name === 'valor_a_cada_1000_milhas') {
+     
+    // }
+
+
+
   };
 
   console.log(formData)
@@ -197,6 +222,7 @@ export default function Home() {
                         iconeName={item.iconName}
                         placeholder={item.placeholder}
                         onChange={(e) => HandleObterDadosDoCadastro(e)}
+                        mask={item.mask}
                       />
                     )
                 )
@@ -268,6 +294,8 @@ export default function Home() {
                       variante={item.variante}
                       isAlert={isValueOfMiles}
                       onChange={(e) => HandleObterDadosDoCadastro(e)}
+                      mask={item.mask}
+
                     />
                 )
               })
@@ -315,7 +343,15 @@ export default function Home() {
     return (
       <>
         <div className={styles.form_header}>
-          <h2 className={styles.form_title}><span className="c-azul">{`0${step}. `}</span>{`${conteudoAtual.title}`}</h2>
+          <h2 className={styles.form_title}>
+            <span className="c-azul">{`0${step}. `}</span>
+            {`${conteudoAtual.title}`} 
+            {
+              ImageSelectedFidelidade && (
+                <img src={`/image/img-logo-${ImageSelectedFidelidade}.png`} alt="Logo Fidelidade" className={`${styles.form_image} ${styles[ImageSelectedFidelidade]}`}/>
+              )
+            }
+          </h2>
         </div>
         <div className="p-4">
           <fieldset className={styles.fieldset_box}>
@@ -338,6 +374,8 @@ export default function Home() {
                     placeholder={item.placeholder}
                     variante={item.variante}
                     onChange={(e) => HandleObterDadosDoCadastro(e)}
+                    mask={item.mask}
+
                     />
                 )
               })
@@ -411,9 +449,9 @@ export default function Home() {
                     </p>
                   )
                 }
-                <Button iconeName="icone-arrow-right" iconeDirection="right" onClick={windowsize.width <= 992 && step === 4 ? HandleClickRedirect : HandleClickNext}>
+                <Button iconeName={`${isBtnLoading ? "" : "icone-arrow-right"}`} iconeDirection="right" onClick={windowsize.width <= 992 && step === 4 ? HandleClickRedirect : HandleClickNext}>
                   {
-                    `${ProgressFlowData[step - 1].button[0].label}`
+                    isBtnLoading ? <div className="loader"></div> : `${ProgressFlowData[step - 1].button[0].label}`
                   }
                 </Button>
               </div>

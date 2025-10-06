@@ -3,8 +3,9 @@
 
 import { forwardRef } from 'react';
 import styles from "./Input.module.scss";
+import jSuites from 'jsuites';
 
-function Input({ iconeName, iconeCode, iconeImage, iconeMoney, label, type, disabled = false , id, name, value, onChange, required, placeholder, variante, readonly, isAlert, ref }) {
+function Input({ iconeName, iconeCode, iconeImage, iconeMoney, label, type, disabled = false , id, name, value, onChange, required, placeholder, variante, readonly, isAlert, mask }) {
     // console.log(variante);
     
     return (
@@ -30,7 +31,7 @@ function Input({ iconeName, iconeCode, iconeImage, iconeMoney, label, type, disa
                     readOnly={readonly}
                     placeholder={placeholder}
                     onChange={onChange}
-                    ref={ref}
+                    data-mask={mask ? mask : null}
                 />
                 {
                     iconeName && <span className={`icones ${iconeName} ${styles.icone}`}></span>

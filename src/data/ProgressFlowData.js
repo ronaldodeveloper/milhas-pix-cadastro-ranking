@@ -49,12 +49,13 @@ export const ProgressFlowData = [
         {
           label: "CPF's Disponíveis", 
           iconName: "icone-lock",
-          type: "number",
+          type: "text",
           disabled: true,
           readonly: false,
           required: true,
           placeholder: "Ilimitado",
           name: "cpfs_disponiveis",
+          mask: "000.000.000-00",
         },
       ],
       info:{
@@ -99,11 +100,12 @@ export const ProgressFlowData = [
         {
           label: "Milhas ofertadas", 
           iconName: "icone-airplane-in-flight",
-          type: "number",
+          type: "text",
           disabled: false,
           readonly: false,
           required: true,
           name: "milhas_ofertadas",
+          mask: "#.##0",
         },
          {
           label: "Valor a cada 1.000 milhas", 
@@ -114,6 +116,8 @@ export const ProgressFlowData = [
           readonly: false,
           required: true,
           name: "valor_a_cada_1000_milhas",
+          // mask: "#.##0.00",
+          mask: "00.00",
         },
       ],
       info:{
@@ -139,10 +143,11 @@ export const ProgressFlowData = [
         {
           label: "CPF do Titular", 
           iconName: "icone-user-circle",
-          type: "number",
+          type: "text",
           disabled: false,
           name: "cpf_titular",
-          required: true
+          required: true,
+          mask: "000.000.000-00",
         },
          {
           label: "Login de acesso", 
@@ -165,10 +170,11 @@ export const ProgressFlowData = [
           iconName: "",
           iconCode: true,
           iconImage: "/image/whatsapp.svg",
-          type: "number",
+          type: "text",
           disabled: false,
           name: "telefone_para_autenticacao",
-          required: true
+          required: true,
+          mask: "(00) 00000-0000",
         },
       ],
       info:{

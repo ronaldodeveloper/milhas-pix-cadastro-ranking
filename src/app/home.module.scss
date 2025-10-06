@@ -207,6 +207,17 @@
                 padding: 16px;
             }
         }
+        &_image{
+            height: 26px;
+            position: absolute;
+            top: 50%;
+            right: 16px;
+            transform: translateY(-50%);
+
+            &.smiles{}
+            &.air-portugal{height: 20px;}
+            &.latam-pass{height: 36px;}
+        }
         &_title{
             color: $color-gray;
             font-weight: 500;
