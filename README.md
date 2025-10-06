@@ -25,7 +25,7 @@ A segunda página mostra uma listagem das ofertas cadastradas com campo de busca
 
 
 ##  Decisões Técnicas
-- Usei fetchA PI pela simplicidade de interceptar erros e requisições
+- Usei fetch API pela simplicidade de interceptar erros e requisições
 - SASS foi escolhido embora o CSS puro tenha evoluído o Sass permite que você utilize uma abordagem mais programática e escalável 
 - A organização em pastas segue princípios de escalabilidade para novos módulos.
 - jsuites fornece funcionalidade de mascaramento para elementos de entrada
@@ -33,6 +33,7 @@ A segunda página mostra uma listagem das ofertas cadastradas com campo de busca
 
 ## Arquitetura do projeto
 ```
+
 src/
 ├── app/
 │ ├── api/
@@ -54,6 +55,7 @@ src/
 ├── hook/                           # Hooks personalizados
 ├── styles/                         # Arquivos SCSS e variáveis globais
 └── util/ 
+
 ```                          
 
 
